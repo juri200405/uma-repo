@@ -1,0 +1,14 @@
+---
+- hosts: dev
+  connection: local
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"
+  tasks:
+  - name: ECSのクラスターを削除
+    tags:
+      - aws/ecs
+    import_role:
+      name: aws/ecs
+      tasks_from: delete_ecs_cluster
+

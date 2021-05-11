@@ -1,0 +1,20 @@
+---
+- hosts: all
+  connection: local
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"
+  tasks:
+    - name: VPCの情報を取得
+      tags:
+        - aws/ec2_vpc
+      import_role:
+        name: aws/ec2_vpc
+        tasks_from: get_ec2_vpc
+    - name: EC2インスタンスを削除
+      tags:
+        - aws/ec2
+      import_role:
+        name: aws/ec2
+        tasks_from: delete_ec2_instance
+      when: ec2_vpc_id is defined

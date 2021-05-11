@@ -1,0 +1,6 @@
+---
+- import_playbook: aws_vpc_create.yml
+- import_playbook: aws_ec2_create.yml
+- import_playbook: aws_rds_create.yml
+- import_playbook: aws_ecr_create.yml
+- import_playbook: aws_ecs_create.yml

@@ -1,0 +1,16 @@
+---
+- name: ECRのレジストリにリポジトリを作成
+  community.aws.ecs_ecr:
+    state: present
+    name: "{{ ecr_repository_name }}"
+    image_tag_mutability: immutable
+    lifecycle_policy:
+      rules:
+        - rulePriority: 1
+          description: "Delete more than {{ max_ecr_image_count }} images"
+          selection:
+            tagStatus: any
+            countType: imageCountMoreThan
+            countNumber: "{{ max_ecr_image_count }}"
+          action:
+            type: expire

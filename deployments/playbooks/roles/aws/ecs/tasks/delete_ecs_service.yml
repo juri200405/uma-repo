@@ -1,0 +1,50 @@
+- name: サービスのタスクを削除する
+  community.aws.ecs_service:
+    state: present
+    name: "{{ ecs_service_name }}"
+    cluster: "{{ ecs_cluster_name }}"
+    task_definition: "{{ ecs_taskdefinition_name }}:{{ ecs_taskdefinition_revision }}"
+    desired_count: 0
+    deployment_configuration:
+      minimum_healthy_percent: 50
+      maximum_percent: 200
+    health_check_grace_period_seconds: 180
+    launch_type: EC2
+    role: "arn:aws:iam::{{aws_accountid}}:role/ECSServiceRole"
+    load_balancers: "{{ ecs_service_info.services[0].loadBalancers }}"
+  ignore_errors: true
+
+- name: タスクを削除できたのでサービスを削除する
+  community.aws.ecs_service:
+    state: absent
+    name: "{{ ecs_service_name }}"
+    cluster: "{{ ecs_cluster_name }}"
+
+- name: ECS タスク定義を削除する
+  community.aws.ecs_taskdefinition:
+    state: absent
+    family: "{{ ecs_taskdefinition_name }}"
+    revision: "{{ item | int }}"
+  loop: "{{ range(1, ecs_taskdefinition_revision+1) | list }}"
+  register: delete_ecs_taskdefinition
+
+- name: ECS タスクの実行ロールを取得
+  community.aws.iam_role_info:
+    name: "{{ ecr_taskdefinition_role_name }}"
+  register: ecs_taskdefinition_role_info
+
+- name: ECS タスクの実行ロールのポリシーを削除
+  community.aws.iam_policy:
+    state: absent
+    iam_type: role
+    iam_name: "{{ ecr_taskdefinition_role_name }}"
+    policy_name: "{{ ecr_taskdefinition_role_name }}"
+  register: delete_ecs_taskdefinition_policy
+  when: ecs_taskdefinition_role_info.iam_roles|length > 0
+
+- name: ECS タスクの実行ロールを削除
+  community.aws.iam_role:
+    state: absent
+    name: "{{ ecr_taskdefinition_role_name }}"
+    purge_policies: yes
+  register: delete_ecs_taskdefinition_role

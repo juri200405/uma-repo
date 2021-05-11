@@ -1,0 +1,25 @@
+---
+- hosts: dev
+  connection: local
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"
+  tasks:
+  - name: ECRのリポジトリのDockerイメージを削除
+    tags:
+      - aws/ecs_ecr
+    import_role:
+      name: aws/ecs_ecr
+      tasks_from: delete_ecr_docker_image
+  - name: ECRのリポジトリを削除
+    tags:
+      - aws/ecs_ecr
+    import_role:
+      name: aws/ecs_ecr
+      tasks_from: delete_ecr_repository
+  - name: ローカルのDockerイメージを削除
+    tags:
+      - docker
+    import_role:
+      name: docker
+      tasks_from: delete_local_docker_image

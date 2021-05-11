@@ -1,0 +1,73 @@
+- name: EC2の情報を取得
+  community.aws.ec2_instance_info:
+    filters:
+      "tag:Name": "{{ ec2_instance_name }}"
+      "instance-state-name": "running"
+  register: ec2_instance_info
+
+- name: RDS用のセキュリティグループを作成
+  amazon.aws.ec2_group:
+    state: present
+    name: "{{ rds_instance_sg_name }}"
+    vpc_id: "{{ ec2_instance_info.instances[0].vpc_id }}"
+    description: "{{ rds_instance_name }} security group"
+    rules:
+      - proto: tcp
+        from_port: 3306
+        to_port: 3306
+        group_id: "{{ ec2_instance_info.instances[0].network_interfaces[0].groups[0].group_id }}"
+  register: rds_instance_sg
+
+- name: VPCのサブネットを取得
+  amazon.aws.ec2_vpc_subnet_info:
+    filters:
+      vpc-id: "{{ ec2_instance_info.instances[0].vpc_id }}"
+  register: ec2_vpc_subnet_info
+
+- name: RDS用のサブネットグループを作成
+  community.aws.rds_subnet_group:
+    state: present
+    name: "{{ rds_instance_subnet_group_name }}"
+    description: "{{ rds_instance_name }} subnet group"
+    subnets:
+      - "{{ ec2_vpc_subnet_info.subnets[0].subnet_id }}"
+      - "{{ ec2_vpc_subnet_info.subnets[1].subnet_id }}"
+      - "{{ ec2_vpc_subnet_info.subnets[2].subnet_id }}"
+  register: rds_subnet_group
+
+- name: RDSのパラメータグループを生成
+  community.aws.rds_param_group:
+    state: present
+    name: "{{ rds_parameter_group_name }}"
+    description: "{{ rds_instance_name }} param group"
+    engine: "{{database_engine}}{{database_engine_family}}"
+    params:
+      character_set_client: utf8mb4
+      character_set_connection: utf8mb4
+      character_set_database: utf8mb4
+      character_set_results: utf8mb4
+      character_set_server: utf8mb4
+      skip-character-set-client-handshake: 1
+  register: rds_param_group
+
+- name: RDSのインスタンスを作成
+  community.aws.rds_instance:
+    state: present
+    id: "{{ rds_instance_name }}"
+    subnet_group: "{{ rds_instance_subnet_group_name }}"
+    db_name: "{{ rds_instance_db_name }}"
+    engine: "{{ database_engine }}"
+    engine_version: "{{ database_engine_version }}"
+    db_instance_class: db.t2.micro
+    db_parameter_group_name: "{{ rds_parameter_group_name }}"
+    username: "{{ rds_username }}"
+    password: "{{ rds_password }}"
+    storage_type: standard
+    allocated_storage: 20
+    multi_az: no
+    publicly_accessible: no
+    vpc_security_group_ids:
+      - "{{ rds_instance_sg.group_id }}"
+    tags:
+      Name: "{{ rds_instance_name }}"
+  register: rds_instance

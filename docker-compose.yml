@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3000
+    working_dir: /app
+    command: './manager'
+    environment:
+      SECRET: secret
+      MYSQL_DATASOURCE: "uma-repo:uma-repo@tcp(db:3306)/uma-repo?charset=utf8mb4&parseTime=true&loc=Asia%2FTokyo"
+    tty: true # -t に相当
+    stdin_open: true # -i に相当
+  db:
+    image: mysql:8.0.23
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: uma-repo 
+      MYSQL_USER: uma-repo
+      MYSQL_PASSWORD: uma-repo
+      TZ: "Asia/Tokyo"
+    ports:
+      - 3306:3306
+    cap_add:
+      # mbind: Operation not permitted のエラー対策
+      - SYS_NICE
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --skip-character-set-client-handshake
+    volumes:
+      - db-data-volume:/var/lib/mysql
+
+volumes:
+  db-data-volume:

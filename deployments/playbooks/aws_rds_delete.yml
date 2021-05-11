@@ -1,0 +1,13 @@
+---
+- hosts: dev
+  connection: local
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"
+  tasks:
+  - name: RDSインスタンスを削除
+    tags:
+      - aws/rds
+    import_role:
+      name: aws/rds
+      tasks_from: delete_rds_instance

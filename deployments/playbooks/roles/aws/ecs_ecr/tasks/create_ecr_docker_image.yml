@@ -1,0 +1,20 @@
+---
+- name: ECRのレジストリにログインする
+  shell: |
+    aws ecr get-login-password --region {{ aws_region }} | docker login --username AWS --password-stdin {{ ecr_registry_uri }}
+  changed_when: false
+
+- name: ECRのリポジトリのイメージのタグを作成
+  command: |
+    docker tag {{ application_name }}:{{ ecr_repository_image_tag }} {{ ecr_repository_uri }}:{{ ecr_repository_image_tag }}
+  changed_when: false
+
+- name: ECRのリポジトリにイメージをプッシュ
+  command: |
+    docker push {{ ecr_repository_uri }}:{{ ecr_repository_image_tag }}
+  changed_when: false
+
+- name: ECRのレジストリからログアウトする
+  command: |
+    docker logout {{ ecr_registry_uri }}
+  changed_when: false

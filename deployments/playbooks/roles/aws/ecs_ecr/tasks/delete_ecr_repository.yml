@@ -1,0 +1,6 @@
+---
+- name: ECRのリポジトリを削除
+  community.aws.ecs_ecr:
+    state: absent
+    name: "{{ ecr_repository_name }}"
+  register: _result

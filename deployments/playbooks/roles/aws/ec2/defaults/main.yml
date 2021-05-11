@@ -1,0 +1,4 @@
+---
+ec2_instance_type: "t2.micro"
+ec2_image_id: "ami-05db638db4083f945"
+ec2_user_data: "#!/bin/bash\necho ECS_CLUSTER={{ ecs_cluster_name }} >> /etc/ecs/ecs.config"

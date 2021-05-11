@@ -1,0 +1,89 @@
+- name: ECS Clusterを作成
+  community.aws.ecs_cluster:
+    name: "{{ ecs_cluster_name }}"
+    state: present
+  register: ecs_cluster
+
+- name: RDSのインスタンスを取得
+  community.aws.rds_instance_info:
+    db_instance_identifier: "{{ rds_instance_name }}"
+  register: rds_instance_info
+
+- name: ECS タスクの実行ロールを作成
+  community.aws.iam_role:
+    state: present
+    name: "{{ ecr_taskdefinition_role_name }}"
+    assume_role_policy_document: "{{ lookup('file','policies/ecs_task_role.json') }}"
+    description: "{{ ecs_taskdefinition_name }} role"
+    purge_policies: yes
+  register: ecs_taskdefinition_role
+
+- name: ECS タスクの実行ロールにポリシーを付与
+  community.aws.iam_policy:
+    state: present
+    iam_type: role
+    iam_name: "{{ ecr_taskdefinition_role_name }}"
+    policy_name: "{{ ecr_taskdefinition_role_name }}"
+    policy_json: '{{ lookup("template", "ecs_task_policy.j2") }}'
+  register: ecs_taskdefinition_policy
+
+- name: ECS タスク定義の作成
+  community.aws.ecs_taskdefinition:
+    state: present
+    family: "{{ ecs_taskdefinition_name }}"
+    revision: "{{ ecs_taskdefinition_revision }}"
+    launch_type: EC2
+    execution_role_arn: "{{ ecs_taskdefinition_role.iam_role.arn }}"
+    containers:
+      - name: app
+        image: "{{ aws_accountid }}.dkr.ecr.ap-northeast-1.amazonaws.com/{{ ecr_repository_name }}:{{ ecr_repository_image_tag }}"
+        entryPoint:
+          - sh
+          - "-c"
+        command:
+          - "./monitor"
+        workingDirectory: "/app"
+        environment:
+          - name: "MYSQL_DATASOURCE"
+            value: "{{ mysql_user }}:{{ mysql_user_password }}@tcp({{ rds_instance_info.instances[0].endpoint.address}}:3306)/{{ rds_instance_db_name }}?charset=utf8mb4&parseTime=true&loc=Asia%2FTokyo"
+          - name: "SECRET"
+            value: "{{ secret }}"
+        secrets:
+                # - name: "AWS_ASSUME_ROLE"
+                #   valueFrom: "{{ aws_assume_role_info.secret.arn }}"
+          - name: "AWS_ACCESS_KEY"
+            valueFrom: "{{ aws_access_key_info.secret.arn }}"
+          - name: "AWS_SECRET_KEY"
+            valueFrom: "{{ aws_secret_key_info.secret.arn }}"
+        portMappings:
+          - containerPort: 3000
+            hostPort: 0
+        cpu: 64
+        memory: 128
+        essential: true
+  register: ecs_taskdefinition
+
+- name: ターゲットグループの情報を取得
+  community.aws.elb_target_group_info:
+    names:
+      - "{{ ec2_alb_tg_name }}"
+  register: ec2_alb_tg_info
+
+- name: ECS Clusterのサービスを作成
+  community.aws.ecs_service:
+    state: present
+    name: "{{ ecs_service_name }}"
+    cluster: "{{ ecs_cluster_name }}"
+    task_definition: "{{ ecs_taskdefinition_name }}:{{ ecs_taskdefinition_revision }}"
+    desired_count: "{{ ecs_service_desired_count }}"
+    deployment_configuration:
+      minimum_healthy_percent: 50
+      maximum_percent: 200
+    health_check_grace_period_seconds: 180
+    launch_type: EC2
+    role: "arn:aws:iam::{{aws_accountid}}:role/ECSServiceRole"
+    load_balancers:
+    - targetGroupArn: "{{ ec2_alb_tg_info.target_groups[0].target_group_arn }}"
+      containerName: app
+      containerPort: 3000
+  register: ecs_cluster_service

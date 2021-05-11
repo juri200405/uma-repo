@@ -1,0 +1,19 @@
+---
+- hosts: all
+  connection: local
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"
+  tasks:
+  - name: ECS用の秘匿情報をSecretsManagerに登録
+    tags:
+      - aws/secret
+    import_role:
+      name: aws/secret
+      tasks_from: create_secret_parameters
+  - name: ECSのクラスターを作成
+    tags:
+      - aws/ecs
+    import_role:
+      name: aws/ecs
+      tasks_from: create_ecs_cluster

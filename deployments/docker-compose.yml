@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  ansible:
+    build: .
+    tty: true
+    stdin_open: true
+    command: bash
+    volumes:
+      - ../../uma-repo:/uma-repo
+      - ./playbooks:/playbooks
+      - ../.aws:/root/.aws
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $HOME/.ssh:/root/.ssh
+      - $HOME/.vault-pass-uma-repo:/root/.vault-pass-uma-repo 

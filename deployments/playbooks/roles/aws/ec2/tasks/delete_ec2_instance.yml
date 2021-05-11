@@ -1,0 +1,50 @@
+- name: ALBを削除
+  community.aws.elb_application_lb:
+    state: absent
+    name: "{{ ec2_alb_name }}"
+  register: ec2_alb
+
+- name: ALB用のターゲットグループを削除
+  community.aws.elb_target_group:
+    state: absent
+    name: "{{ ec2_alb_tg_name }}"
+    vpc_id: "{{ ec2_vpc_id }}"
+  register: ec2_alb_tg
+
+- name: EC2の情報を取得
+  community.aws.ec2_instance_info:
+    filters:
+      "tag:Name": "{{ ec2_instance_name }}"
+      "instance-state-name": "running"
+  register: ec2_instance_info
+
+- name: ElasticIPを削除
+  community.aws.ec2_eip:
+    state: absent
+    device_id: "{{ ec2_instance_info.instances[0].instance_id }}"
+    tag_name: Name
+    tag_value: "{{ ec2_instance_eip_name }}"
+    release_on_disassociation: yes
+  register: ec2_eip
+  when: ec2_instance_info.instances|length > 0
+
+- name: EC2インスタンスを削除
+  community.aws.ec2_instance:
+    state: absent
+    name: "{{ ec2_instance_name }}"
+    vpc_subnet_id: "{{ ec2_vpc_subnet_ids[0] }}"
+  register: ec2_instance
+
+- name: EC2用のセキュリティグループを削除
+  amazon.aws.ec2_group:
+    state: absent
+    name: "{{ ec2_instance_sg_name }}"
+    vpc_id: "{{ ec2_vpc_id }}"
+  register: ec2_instance_sg
+
+- name: ALB用のセキュリティグループを削除
+  amazon.aws.ec2_group:
+    state: absent
+    name: "{{ ec2_alb_sg_name }}"
+    vpc_id: "{{ ec2_vpc_id }}"
+  register: ec2_alb_sg

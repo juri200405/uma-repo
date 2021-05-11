@@ -1,0 +1,46 @@
+---
+resource_base_name : "{{ application_name }}-{{ env }}"
+
+ec2_vpc_name: "{{ resource_base_name }}-vpc"
+ec2_vpc_cidr: 10.1.0.0/16
+ec2_vpc_subnet_a_name: "{{ ec2_vpc_name }}-subnet-a"
+ec2_vpc_subnet_a_cidr: 10.1.0.0/24
+ec2_vpc_subnet_a_az: "ap-northeast-1a"
+ec2_vpc_subnet_c_name: "{{ ec2_vpc_name }}-subnet-c"
+ec2_vpc_subnet_c_cidr: 10.1.1.0/24
+ec2_vpc_subnet_c_az: "ap-northeast-1c"
+ec2_vpc_subnet_d_name: "{{ ec2_vpc_name }}-subnet-d"
+ec2_vpc_subnet_d_cidr: 10.1.2.0/24
+ec2_vpc_subnet_d_az: "ap-northeast-1d"
+ec2_vpc_igw_name: "{{ ec2_vpc_name }}-igw"
+ec2_vpc_rtb_name: "{{ ec2_vpc_name }}-rtb"
+
+ec2_instance_name: "{{ resource_base_name }}-ec2"
+ec2_instance_ssh_key_name: "uma-repo-dev-manual"
+ec2_instance_eip_name: "{{ resource_base_name }}-eip"
+ec2_instance_sg_name: "{{ resource_base_name }}-sg"
+ec2_instance_role: "{{ resource_base_name }}-role"
+ec2_alb_name: "{{ resource_base_name }}-alb"
+ec2_alb_tg_name: "{{ resource_base_name }}-alb-tg"
+ec2_alb_sg_name: "{{ resource_base_name }}-alb-sg"
+
+rds_instance_name: "{{ resource_base_name }}-rds"
+rds_instance_db_name: "umarepo" #alphanumericしか使えないので妥協
+rds_instance_sg_name: "{{ rds_instance_name }}-sg"
+rds_instance_subnet_group_name: "{{ rds_instance_name }}-subnet-group"
+rds_parameter_group_name: "{{ rds_instance_name }}-param-group"
+
+ecr_repository_name: "{{ resource_base_name }}-ecr-repository"
+ecr_registry_uri: "{{ aws_accountid }}.dkr.ecr.{{ aws_region }}.amazonaws.com"
+ecr_repository_uri: "{{ ecr_registry_uri }}/{{ ecr_repository_name }}"
+ecr_repository_image_tag: "{{ application_version }}"
+ecs_taskdefinition_revision: "{{ application_version }}"
+
+ecs_cluster_name: "{{ resource_base_name }}-ecs-cluster"
+ecs_taskdefinition_name: "{{ resource_base_name }}-ecs-taskdefinition"
+ecr_taskdefinition_role_name: "{{ ecs_taskdefinition_name }}-role"
+ecs_taskdefinition_log_group_name: "/ecs/{{ ecs_taskdefinition_name }}"
+ecs_service_name: "{{ resource_base_name }}-ecs-service"
+ecs_service_desired_count: 2
+
+secret_recovery_window : 0

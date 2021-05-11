@@ -1,0 +1,30 @@
+- name: ECRのレジストリにログインする
+  shell: |
+    aws ecr get-login-password --region {{ aws_region }} | docker login --username AWS --password-stdin {{ ecr_registry_uri }}
+  changed_when: false
+
+# ecs_ecr_infoがないのでこうしている
+- name: リポジトリを取得
+  community.aws.ecs_ecr:
+    name: "{{ ecr_repository_name }}"
+  register: ecr_repository
+
+- name: ECRのリポジトリのイメージ一覧を取得
+  command: |
+    aws ecr list-images --repository-name {{ ecr_repository_name }}
+  register: image_list_info
+  changed_when: false
+
+- set_fact:
+    image_list: '{{ image_list_info.stdout }}'
+
+- name: ECRのリポジトリのイメージを削除
+  command: |
+    aws ecr batch-delete-image --repository-name {{ ecr_repository_name }} --image-ids imageDigest={{ item.imageDigest }}
+  changed_when: false
+  loop: "{{ image_list.imageIds }}"
+
+- name: ECRのレジストリからログアウトする
+  command: |
+    docker logout {{ ecr_registry_uri }}
+  changed_when: false

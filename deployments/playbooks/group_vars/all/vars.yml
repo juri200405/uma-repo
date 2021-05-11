@@ -1,0 +1,11 @@
+---
+aws_profile: "default"
+aws_region: "ap-northeast-1"
+application_name: "uma-repo"
+application_path: "/uma-repo"
+
+# vaultにより暗号化する変数
+aws_accountid: "{{ vault_aws_accountid }}"
+# ecs_aws_assume_role: "{{ vault_ecs_aws_assume_role }}"
+ecs_aws_access_key: "{{ vault_ecs_aws_access_key }}"
+ecs_aws_secret_key: "{{ vault_ecs_aws_secret_key }}"

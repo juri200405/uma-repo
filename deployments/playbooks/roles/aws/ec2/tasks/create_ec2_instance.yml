@@ -1,0 +1,109 @@
+- name: ALB用のセキュリティグループを作成
+  amazon.aws.ec2_group:
+    state: present
+    name: "{{ ec2_alb_sg_name }}"
+    region: "{{ aws_region }}"
+    vpc_id: "{{ ec2_vpc_id }}"
+    description: "{{ ec2_alb_name }} security group"
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+  register: ec2_alb_sg
+
+- name: EC2用のセキュリティグループを作成
+  amazon.aws.ec2_group:
+    state: present
+    name: "{{ ec2_instance_sg_name }}"
+    region: "{{ aws_region }}"
+    vpc_id: "{{ ec2_vpc_id }}"
+    description: "{{ ec2_instance_name }} security group"
+    rules:
+      - proto: tcp
+        from_port: 32768
+        to_port: 61000
+        group_id: "{{ ec2_alb_sg.group_id }}"
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+  register: ec2_instance_sg
+
+- name: ECSアクセス用のロールを作成
+  community.aws.iam_role:
+    name: "{{ ec2_instance_role }}"
+    assume_role_policy_document: "{{ lookup('file','policies/ecs_for_ec2_role.json') }}"
+    description: "{{ ec2_instance_role }}"
+    managed_policies:
+      - "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"
+    purge_policies: yes
+  register: ec2_iam_role
+
+- name: EC2インスタンスを作成
+  community.aws.ec2_instance:
+    state: present
+    name: "{{ ec2_instance_name }}"
+    key_name: "{{ ec2_instance_ssh_key_name }}"
+    vpc_subnet_id: "{{ ec2_vpc_subnet_ids[0] }}"
+    instance_type: "{{ ec2_instance_type }}"
+    security_group: "{{ ec2_instance_sg_name }}"
+    image_id: "{{ ec2_image_id }}"
+    instance_role: "{{ ec2_iam_role.role_name }}"
+    region: "{{ aws_region }}"
+    volumes:
+      - device_name: /dev/xvda
+        ebs:
+          volume_type: gp2
+          volume_size: 30
+          delete_on_termination: true
+    user_data: "{{ ec2_user_data }}"
+  register: ec2_instance
+
+- name: ElasticIPを付与
+  community.aws.ec2_eip:
+    state: present
+    device_id: "{{ ec2_instance.instance_ids[0] }}"
+    region: "{{ aws_region }}"
+    in_vpc: yes
+    reuse_existing_ip_allowed: yes
+    release_on_disassociation: yes
+    tag_name: Name
+    tag_value: "{{ ec2_instance_eip_name }}"
+  register: ec2_eip
+
+- name: ElasticIPにタグを付与
+  amazon.aws.ec2_tag:
+    resource: "{{ ec2_eip.allocation_id }}"
+    tags:
+      Name: "{{ ec2_instance_eip_name }}"
+  register: ec2_eip_tag
+
+- name: ALB用のターゲットグループを作成
+  community.aws.elb_target_group:
+    state: present
+    name: "{{ ec2_alb_tg_name }}"
+    protocol: http
+    port: 3000
+    health_check_port: "traffic-port"
+    vpc_id: "{{ ec2_vpc_id }}"
+    target_type: instance
+  register: ec2_alb_tg
+
+- name: ALBを作成
+  community.aws.elb_application_lb:
+    state: present
+    name: "{{ ec2_alb_name }}"
+    security_groups:
+      - "{{ ec2_alb_sg.group_name }}"
+    subnets:
+      - "{{ ec2_vpc_subnet_ids[0] }}"
+      - "{{ ec2_vpc_subnet_ids[1] }}"
+      - "{{ ec2_vpc_subnet_ids[2] }}"
+    listeners:
+      - Protocol: HTTP
+        Port: 80
+        DefaultActions:
+          - Type: forward
+            TargetGroupName: "{{ ec2_alb_tg.target_group_name }}"
+  register: ec2_alb

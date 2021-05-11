@@ -1,0 +1,18 @@
+---
+secret: "SECRET"
+mysql_user: "admin"
+mysql_user_password: "uma-repo"
+
+# required variables
+#
+# application_name:
+# ecr_repository_name:
+# ecr_repository_image_tag:
+# ecs_cluster_name:
+# ecs_taskdefinition_name:
+# ecs_taskdefinition_revision:
+# ecs_service_name:
+# ecs_service_desired_count:
+# ecs_aws_assume_role:
+# ecs_aws_access_key:
+# ecs_aws_secret_key:

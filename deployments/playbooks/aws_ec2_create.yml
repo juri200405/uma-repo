@@ -1,0 +1,19 @@
+---
+- hosts: all
+  connection: local
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"
+  tasks:
+    - name: VPCの情報を取得
+      tags:
+        - aws/ec2_vpc
+      import_role:
+        name: aws/ec2_vpc
+        tasks_from: get_ec2_vpc
+    - name: EC2インスタンスを作成
+      tags:
+        - aws/ec2
+      import_role:
+        name: aws/ec2
+        tasks_from: create_ec2_instance

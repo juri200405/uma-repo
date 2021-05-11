@@ -1,0 +1,7 @@
+---
+- import_playbook: aws_ecs_service_delete.yml
+- import_playbook: aws_ecr_delete.yml
+- import_playbook: aws_rds_delete.yml
+- import_playbook: aws_ec2_delete.yml
+- import_playbook: aws_ecs_cluster_delete.yml
+- import_playbook: aws_vpc_delete.yml

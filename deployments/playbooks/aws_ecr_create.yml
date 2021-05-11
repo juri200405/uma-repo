@@ -1,0 +1,27 @@
+---
+#TODO:CI作ったらリポジトリの作成のみにする
+- hosts: all
+  connection: local
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"
+  tasks:
+  - name: ローカルのDockerイメージを作成
+    tags:
+      - docker
+    import_role:
+      name: docker
+      tasks_from: create_local_docker_image
+  - name: ECRのリポジトリを作成
+    tags:
+      - aws/ecs_ecr
+    import_role:
+      name: aws/ecs_ecr
+      tasks_from: create_ecr_repository
+  - name: ECRのリポジトリにDockerイメージをプッシュ
+    tags:
+      - aws/ecs_ecr
+    import_role:
+      name: aws/ecs_ecr
+      tasks_from: create_ecr_docker_image
+

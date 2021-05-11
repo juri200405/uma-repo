@@ -1,0 +1,28 @@
+---
+- hosts: dev
+  connection: local
+  environment:
+    AWS_PROFILE: "{{ aws_profile }}"
+    AWS_DEFAULT_REGION: "{{ aws_region }}"
+  tasks:
+  - name: ESCのサービスの情報を取得
+    tags:
+      - aws/ecs
+    import_role:
+      name: aws/ecs
+      tasks_from: get_ecs_service
+    ignore_errors: true
+  - name: ECSのサービスを削除
+    tags:
+      - aws/ecs
+    import_role:
+      name: aws/ecs
+      tasks_from: delete_ecs_service
+    when: ecs_service_info.error is undefined
+  - name: ECS用の秘匿情報をSecretsManagerから削除
+    tags:
+      - aws/secret
+    import_role:
+      name: aws/secret
+      tasks_from: delete_secret_parameters
+    when: ecs_service_info.error is undefined

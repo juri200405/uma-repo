@@ -1,0 +1,39 @@
+- name: EC2の情報を取得
+  community.aws.ec2_instance_info:
+    filters:
+      "tag:Name": "{{ ec2_instance_name }}"
+      "instance-state-name": "running"
+  register: ec2_instance_info
+
+- name: VPCのサブネットを取得
+  amazon.aws.ec2_vpc_subnet_info:
+    filters:
+      vpc-id: "{{ ec2_instance_info.instances[0].vpc_id }}"
+  register: ec2_vpc_subnet_info
+  when: ec2_instance_info.instances|length>0
+
+- name: RDSのインスタンスを削除
+  community.aws.rds_instance:
+    state: absent
+    id: "{{ rds_instance_name }}"
+    skip_final_snapshot: True
+  register: delete_rds_instance
+
+- name: RDS用のサブネットグループを削除
+  community.aws.rds_subnet_group:
+    state: absent
+    name: "{{ rds_instance_subnet_group_name }}"
+    subnets:
+      - "{{ ec2_vpc_subnet_info.subnets[0].subnet_id }}"
+      - "{{ ec2_vpc_subnet_info.subnets[1].subnet_id }}"
+      - "{{ ec2_vpc_subnet_info.subnets[2].subnet_id }}"
+  register: delete_rds_subnet_group
+  when: ec2_vpc_subnet_info.subnets is defined
+
+- name: RDS用のセキュリティグループを削除
+  amazon.aws.ec2_group:
+    state: absent
+    name: "{{ rds_instance_sg_name }}"
+    vpc_id: "{{ ec2_instance_info.instances[0].vpc_id }}"
+  register: delete_rds_instance_sg
+  when: ec2_instance_info.instances|length>0

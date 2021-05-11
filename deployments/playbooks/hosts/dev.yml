@@ -1,0 +1,9 @@
+all:
+  vars:
+    ansible_host: localhost
+  children:
+    dev:
+      hosts:
+        dev3:
+          env: dev8
+          application_version: 2

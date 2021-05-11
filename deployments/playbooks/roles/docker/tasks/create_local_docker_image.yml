@@ -1,0 +1,7 @@
+- name: Dockerのイメージを作成
+  #TODO:すでに存在する場合は作成しない
+  command: |
+    docker build \
+      -t {{ application_name }}:{{ ecr_repository_image_tag }} \
+      {{ application_path }} --no-cache
+  changed_when: false

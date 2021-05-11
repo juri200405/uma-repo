@@ -1,0 +1,4 @@
+- name: Dockerのイメージを削除　
+  command: |
+    docker rmi {{ application_name }}:{{ ecr_repository_image_tag }} -f
+  changed_when: false

@@ -1,0 +1,5 @@
+---
+max_ecr_image_count: 30
+
+# required variables
+#ecr_repository_name:

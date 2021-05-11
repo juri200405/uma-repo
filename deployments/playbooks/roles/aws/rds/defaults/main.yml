@@ -1,0 +1,6 @@
+---
+database_engine: "mysql"
+database_engine_family: "8.0"
+database_engine_version: "8.0.23"
+rds_username: "admin"
+rds_password: "uma_repo"

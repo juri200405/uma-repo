@@ -1,0 +1,4 @@
+- name: ECS クラスターを削除
+  community.aws.ecs_cluster:
+    state: absent
+    name: "{{ ecs_cluster_name }}"

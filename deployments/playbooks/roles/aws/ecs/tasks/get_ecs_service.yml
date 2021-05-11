@@ -1,0 +1,5 @@
+- name: サービスの情報を取得する
+  community.aws.ecs_service_info:
+    cluster: "{{ ecs_cluster_name }}"
+    details: yes
+  register: ecs_service_info
