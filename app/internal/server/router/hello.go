@@ -7,5 +7,6 @@ import (
 )
 
 func Hello(e *echo.Echo) {
-	e.GET("/", handlers.Hello())
+	e.GET("/hello/:var", handlers.Hello())
+	e.GET("/goodday/:var", handlers.GoodDay())
 }

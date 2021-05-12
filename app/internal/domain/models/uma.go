@@ -42,9 +42,3 @@ type Uma struct {
 	RedFactor Factor
 	WhiteFactors []Factor `gorm:"many2many:uma_wfactor"`
 }
-
-type Factor struct {
-	gorm.Model
-	Name string
-	Star int
-}
