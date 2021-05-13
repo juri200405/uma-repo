@@ -12,3 +12,11 @@ type UmaService struct {
 func(s *UmaService) Register(uma *models.Uma) error {
 	return s.Repo.Register(uma)
 }
+
+func(s *UmaService) GetAll() ([]models.Uma, error) {
+	return s.Repo.GetAll()
+}
+
+func(s *UmaService) GetNames() ([]models.Uma, error) {
+	return s.Repo.GetNames()
+}

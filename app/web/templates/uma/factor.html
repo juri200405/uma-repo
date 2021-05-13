@@ -7,22 +7,23 @@
 	</head>
 	<body>
 		<h3>因子登録</h3>
-		<form method="POST" action="/factors/factor">
+		<form method="POST" action="/factors">
 			<p>
 			<input type="text" name="name" required>
 			<input type="number" name="star" min="1" max="3" value="1" required>
 			<input type="submit" value="送信">
 			</p>
 		</form>
-		{{if .factorList}}
 		<table>
+			<tr>
+				<th>ID</th><th>名前</th><th>星</th>
+			</tr>
 			{{range .factorList}}
 			<tr>
-				<td>{{.Name}}</td><td>{{.Star}}</td>
+				<td>{{.ID}}</td><td>{{.Name}}</td><td>{{.Star}}</td>
 			</tr>
 			{{end}}
 		</table>
-		{{end}}
 	</body>
 </html>
 {{end}}

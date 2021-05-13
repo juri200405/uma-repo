@@ -7,18 +7,18 @@ import (
 type Uma struct {
 	gorm.Model
 
-	Name string `json:"name"`
+	Name string `json:"name" form:"name"`
 
 	BlueInheritanceID uint `json:"blue_inheritance_id" form:"blue_inheritance_id"`
-	BlueInheritance *Uma
+	BlueInheritance *Uma `json:"blue_inheritance" form:"blue_inheritance"`
 	RedInheritanceID uint `json:"red_inheritance_id" form:"red_inheritance_id"`
-	RedInheritance *Uma
+	RedInheritance *Uma `json:"red_inheritance" form:"red_inheritance"`
 
 	Speed int `json:"speed" form:"speed"`
-	Stamina int `json:"stamina" form"stamina"`
+	Stamina int `json:"stamina" form:"stamina"`
 	Power int `json:"power" form:"power"`
 	Spirit int `json:"spirit" form:"spirit"`
-	Intelligence int `json:"intelligence" form:"inteligence"`
+	Intelligence int `json:"intelligence" form:"intelligence"`
 
 	Turf int `json:"turf" form:"turf"`
 	Dirt int `json:"dirt" form:"dirt"`
@@ -36,9 +36,9 @@ type Uma struct {
 
 	Point int `json:"point" form:"point"`
 
-	BleuFactorID int `json:"bleu_factor_id" form:"bleu_factor_id"`
-	BleuFactor Factor
+	BleuFactorID int `json:"blue_factor_id" form:"blue_factor_id"`
+	BleuFactor *Factor `json:"blue_factor" form:"blue_factor"`
 	RedFactorID int `json:"red_factor_id" form:"red_factor_id"`
-	RedFactor Factor
-	WhiteFactors []Factor `gorm:"many2many:uma_wfactor"`
+	RedFactor *Factor `json:"red_factor" form:"red_factor"`
+	WhiteFactors []Factor `json:"white_factors" form:"white_factors" gorm:"many2many:uma_wfactor"`
 }

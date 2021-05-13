@@ -16,3 +16,7 @@ func(s *FactorService) Register(factor *models.Factor) error {
 func(s *FactorService) GetAll() ([]models.Factor, error) {
 	return s.Repo.GetAll()
 }
+
+func(s *FactorService) GetAllSorted() ([]models.Factor, error) {
+	return s.Repo.GetAllSorted()
+}

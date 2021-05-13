@@ -6,4 +6,4 @@ all:
       hosts:
         dev3:
           env: dev8
-          application_version: 2
+          application_version: 1

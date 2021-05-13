@@ -13,6 +13,6 @@ func FactorRouter(e *echo.Echo) {
 	Route := e.Group("/factors")
 	{
 		Route.GET("", handlers.FactorPage(r))
-		Route.POST("/factor", handlers.FactorRegister(r))
+		Route.POST("", handlers.FactorRegister(r))
 	}
 }

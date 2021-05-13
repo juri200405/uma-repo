@@ -13,3 +13,13 @@ type UmaRepository struct {
 func (r *UmaRepository) Register(uma *models.Uma) error {
 	return r.Db.Create(uma).Error
 }
+
+func (r *UmaRepository) GetAll() (umas []models.Uma, err error) {
+	err = r.Db.Find(&umas).Error
+	return
+}
+
+func (r *UmaRepository) GetNames() (umas []models.Uma, err error) {
+	err = r.Db.Distinct("name").Order("name").Find(&umas).Error
+	return
+}

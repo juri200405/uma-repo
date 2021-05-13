@@ -18,3 +18,8 @@ func (r *FactorRepository) GetAll() (factors []models.Factor, err error) {
 	err = r.Db.Find(&factors).Error
 	return
 }
+
+func (r *FactorRepository) GetAllSorted() (factors []models.Factor, err error) {
+	err = r.Db.Order("name, star").Find(&factors).Error
+	return
+}

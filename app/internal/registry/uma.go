@@ -18,7 +18,9 @@ func (r UmaRegistry) GetUmaUsecase() usecases.UmaUsecase {
 	db := mysql.GetConnection()
 
 	ur := &datastore.UmaRepository{Db: db}
+	fr := &datastore.FactorRepository{Db: db}
 	us := &services.UmaService{Repo: ur}
+	fs := &services.FactorService{Repo: fr}
 
-	return &usecases.UmaServices{Uma: us}
+	return &usecases.UmaServices{Uma: us, Factor: fs}
 }

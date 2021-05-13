@@ -21,6 +21,7 @@ func main() {
 	e := echo.New()
 	t := &Template{templates: template.Must(template.New("").ParseGlob("web/templates/**/*.html"))}
 	e.Renderer = t
+	e.Static("/public/css/", "./public/css/")
 
 	router.Router(e)
 	e.Logger.Fatal(e.Start(":3000"))

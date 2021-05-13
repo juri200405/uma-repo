@@ -7,4 +7,5 @@ import (
 type FactorRepository interface {
 	Register(*models.Factor) error
 	GetAll() ([]models.Factor, error)
+	GetAllSorted() ([]models.Factor, error)
 }

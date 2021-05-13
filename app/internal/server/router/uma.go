@@ -12,6 +12,7 @@ func UmaRouter(e *echo.Echo) {
 
 	Route := e.Group("/uma")
 	{
+		Route.GET("", handlers.UmaRegisterPage(r))
 		Route.POST("", handlers.UmaRegister(r))
 	}
 }

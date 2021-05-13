@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -17,10 +18,38 @@ func UmaRegister(r *registry.UmaRegistry) echo.HandlerFunc {
 			return err
 		}
 
+		fmt.Printf("%#v\n", u)
 		if err := uc.Register(u); err != nil {
 			return err
 		} else {
-			return c.NoContent(http.StatusOK)
+			return c.Redirect(http.StatusSeeOther, "/uma")
 		}
+	}
+}
+
+func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
+	uc := r.GetUmaUsecase()
+	return func(c echo.Context) error {
+		umas, err := uc.GetAll()
+		if err != nil {
+			return err
+		}
+		names, err := uc.GetNames()
+		if err != nil {
+			return err
+		}
+		factorList, err := uc.GetFactorList()
+		if err != nil {
+			return err
+		}
+		return c.Render(
+			http.StatusOK,
+			"umaRegisterPage",
+			map[string]interface{}{
+				"nameList": names,
+				"umaList": umas,
+				"factorList": factorList,
+			},
+		)
 	}
 }

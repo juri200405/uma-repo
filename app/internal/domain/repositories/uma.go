@@ -6,4 +6,6 @@ import (
 
 type UmaRepository interface {
 	Register(*models.Uma) error
+	GetAll() ([]models.Uma, error)
+	GetNames() ([]models.Uma, error)
 }

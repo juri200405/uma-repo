@@ -25,6 +25,7 @@
     state: absent
     family: "{{ ecs_taskdefinition_name }}"
     revision: "{{ item | int }}"
+    containers: ~
   loop: "{{ range(1, ecs_taskdefinition_revision+1) | list }}"
   register: delete_ecs_taskdefinition
 
