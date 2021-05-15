@@ -17,9 +17,16 @@ func UmaRegister(r *registry.UmaRegistry) echo.HandlerFunc {
 		if err := c.Bind(u); err != nil {
 			return err
 		}
-
 		fmt.Printf("%#v\n", u)
-		if err := uc.Register(u); err != nil {
+
+		var wFactorIds []uint
+		if err := echo.FormFieldBinder(c).BindWithDelimiter("white_factor_items", &wFactorIds, ",").BindError(); err != nil {
+			fmt.Println(err)
+			return err
+		}
+		fmt.Println(wFactorIds)
+
+		if err := uc.Register(u, wFactorIds); err != nil {
 			return err
 		} else {
 			return c.Redirect(http.StatusSeeOther, "/uma")
@@ -49,6 +56,23 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 				"nameList": names,
 				"umaList": umas,
 				"factorList": factorList,
+			},
+		)
+	}
+}
+
+func UmaListPage(r *registry.UmaRegistry) echo.HandlerFunc {
+	uc := r.GetUmaUsecase()
+	return func(c echo.Context) error {
+		umas, err := uc.GetAll()
+		if err != nil {
+			return err
+		}
+		return c.Render(
+			http.StatusOK,
+			"umaPage",
+			map[string]interface{}{
+				"umaList": umas,
 			},
 		)
 	}

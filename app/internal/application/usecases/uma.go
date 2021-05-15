@@ -6,7 +6,7 @@ import (
 )
 
 type UmaUsecase interface {
-	Register(*models.Uma) error
+	Register(*models.Uma, []uint) error
 	GetAll() ([]models.Uma, error)
 	GetNames() ([]models.Uma, error)
 	GetFactorList() ([]models.Factor, error)
@@ -17,7 +17,12 @@ type UmaServices struct {
 	Factor *services.FactorService
 }
 
-func (s *UmaServices) Register(uma *models.Uma) error {
+func (s *UmaServices) Register(uma *models.Uma, whiteFactorIds []uint) error {
+	whiteFactors, err := s.Factor.GetSlice(whiteFactorIds)
+	if err != nil {
+		return err
+	}
+	uma.WhiteFactors = whiteFactors
 	return s.Uma.Register(uma)
 }
 

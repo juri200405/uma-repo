@@ -26,110 +26,114 @@ function addWhiteFactor() {
 	wFactorElement = document.getElementById("white_factor_items_container");
 	const whiteFactor = document.getElementById("white_factor");
 	wFactorList.push(whiteFactor.value);
-	wFactorElement.innerHTML = `<input type="hidden" name="white_factor_items" value="${wFactorList}">`;
+	wFactorElement.innerHTML = `<input type="hidden" name="white_factor_items" value=${wFactorList}>`;
 	document.getElementById("white_factor_list").textContent += whiteFactor.selectedOptions[0].label + '\n';
 	whiteFactor.value = "";
 }
 	-->
 	</script>
 		<h3>ウマ娘登録</h3>
+		<p>
+			<a href="/">一覧</a>/
+			<a href="/factors">因子</a>
+		</p>
 		<form method="POST" action="/uma">
 			<p>
-			<label for="name">ウマ娘 : </label>
-			<input type="text" name="name" id="name" list="nameList" required>
-			<datalist id="nameList">
-				{{range .nameList}}
-				<option value="{{.Name}}"></option>
-				{{end}}
-			</datalist>
+				<label for="name">ウマ娘 : </label>
+				<input type="text" name="name" id="name" list="nameList" required>
+				<datalist id="nameList">
+					{{range .nameList}}
+					<option value="{{.Name}}"></option>
+					{{end}}
+				</datalist>
 			</p>
 			<p>
-			<label for="speed">スピード : </label>
-			<input type="number" name="speed" min="0" max="1200" value="0" id="speed" required>
-			<label for="stamina">スタミナ : </label>
-			<input type="number" name="stamina" min="0" max="1200" value="0" id="stamina" required>
-			<label for="power">パワー : </label>
-			<input type="number" name="power" min="0" max="1200" value="0" id="power" required>
-			<label for="spirit">根性 : </label>
-			<input type="number" name="spirit" min="0" max="1200" value="0" id="spirit" required>
-			<label for="intelligence">賢さ : </label>
-			<input type="number" name="intelligence" min="0" max="1200" value="0" id="intelligence" required>
+				<label for="speed">スピード : </label>
+				<input type="number" name="speed" min="0" max="1200" value="0" id="speed" required>
+				<label for="stamina">スタミナ : </label>
+				<input type="number" name="stamina" min="0" max="1200" value="0" id="stamina" required>
+				<label for="power">パワー : </label>
+				<input type="number" name="power" min="0" max="1200" value="0" id="power" required>
+				<label for="spirit">根性 : </label>
+				<input type="number" name="spirit" min="0" max="1200" value="0" id="spirit" required>
+				<label for="intelligence">賢さ : </label>
+				<input type="number" name="intelligence" min="0" max="1200" value="0" id="intelligence" required>
 			</p>
 			<p>
-			<label for="turf">芝 : </label>
-			<select name="turf" id="turf">
-				{{template "aptitudeChoices" .}}
-			</select>
-			<label for="dirt">ダート : </label>
-			<select name="dirt" id="dirt">
-				{{template "aptitudeChoices" .}}
-			</select>
+				<label for="turf">芝 : </label>
+				<select name="turf" id="turf">
+					{{template "aptitudeChoices" .}}
+				</select>
+				<label for="dirt">ダート : </label>
+				<select name="dirt" id="dirt">
+					{{template "aptitudeChoices" .}}
+				</select>
 			</p>
 			<p>
-			<label for="short">短距離 : </label>
-			<select name="short" id="short">
-				{{template "aptitudeChoices" .}}
-			</select>
-			<label for="mile">マイル : </label>
-			<select name="mile" id="mile">
-				{{template "aptitudeChoices" .}}
-			</select>
-			<label for="middle">中距離 : </label>
-			<select name="middle" id="middle">
-				{{template "aptitudeChoices" .}}
-			</select>
-			<label for="long">長距離 : </label>
-			<select name="long" id="long">
-				{{template "aptitudeChoices" .}}
-			</select>
+				<label for="short">短距離 : </label>
+				<select name="short" id="short">
+					{{template "aptitudeChoices" .}}
+				</select>
+				<label for="mile">マイル : </label>
+				<select name="mile" id="mile">
+					{{template "aptitudeChoices" .}}
+				</select>
+				<label for="middle">中距離 : </label>
+				<select name="middle" id="middle">
+					{{template "aptitudeChoices" .}}
+				</select>
+				<label for="long">長距離 : </label>
+				<select name="long" id="long">
+					{{template "aptitudeChoices" .}}
+				</select>
 			</p>
 			<p>
-			<label for="front">逃げ : </label>
-			<select name="front" id="front">
-				{{template "aptitudeChoices" .}}
-			</select>
-			<label for="stalker">先行 : </label>
-			<select name="stalker" id="stalker">
-				{{template "aptitudeChoices" .}}
-			</select>
-			<label for="sotp">差し : </label>
-			<select name="sotp" id="sotp">
-				{{template "aptitudeChoices" .}}
-			</select>
-			<label for="offer">追込 : </label>
-			<select name="offer" id="offer">
-				{{template "aptitudeChoices" .}}
-			</select>
+				<label for="front">逃げ : </label>
+				<select name="front" id="front">
+					{{template "aptitudeChoices" .}}
+				</select>
+				<label for="stalker">先行 : </label>
+				<select name="stalker" id="stalker">
+					{{template "aptitudeChoices" .}}
+				</select>
+				<label for="sotp">差し : </label>
+				<select name="sotp" id="sotp">
+					{{template "aptitudeChoices" .}}
+				</select>
+				<label for="offer">追込 : </label>
+				<select name="offer" id="offer">
+					{{template "aptitudeChoices" .}}
+				</select>
 			</p>
 			<p>
-			<label for="point">評価点 : </label>
-			<input type="number" name="point" min="0" value="0" id="point" required>
+				<label for="point">評価点 : </label>
+				<input type="number" name="point" min="0" value="0" id="point" required>
 			</p>
 			<p>
-			<label for="blue_factor_id">青因子 : </label>
-			<select name="blue_factor_id" id="blue_factor_id">
-				{{range .factorList}}
-				<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
-				{{end}}
-			</select>
-			<label for="red_factor_id">赤因子 : </label>
-			<select name="red_factor_id" id="red_factor_id">
-				{{range .factorList}}
-				<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
-				{{end}}
-			</select>
+				<label for="blue_factor_id">青因子 : </label>
+				<select name="blue_factor_id" id="blue_factor_id">
+					{{range .factorList}}
+					<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
+					{{end}}
+				</select>
+				<label for="red_factor_id">赤因子 : </label>
+				<select name="red_factor_id" id="red_factor_id">
+					{{range .factorList}}
+					<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
+					{{end}}
+				</select>
 			</p>
 			<p>
-			<div id="white_factor_items_container"></div>
-			<label for="white_factor_list">白因子 : </label>
-			<textarea rows="15" cols="40" id="white_factor_list" readonly></textarea>
-			<label for="white_factor">追加 : </label>
-			<select id="white_factor">
-				{{range .factorList}}
-				<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
-				{{end}}
-			</select>
-			<input type="button" value="追加" onClick="addWhiteFactor()">
+				<div id="white_factor_items_container"></div>
+				<label for="white_factor_list">白因子 : </label>
+				<textarea rows="5" cols="40" id="white_factor_list" readonly></textarea>
+				<label for="white_factor">追加 : </label>
+				<select id="white_factor">
+					{{range .factorList}}
+					<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
+					{{end}}
+				</select>
+				<input type="button" value="追加" onClick="addWhiteFactor()">
 			</p>
 			<table class="inheritance">
 				<tr>
@@ -144,7 +148,7 @@ function addWhiteFactor() {
 				{{end}}
 			</table>
 			<p>
-			<input type="submit" value="送信">
+				<input type="submit" value="送信">
 			</p>
 		</form>
 	</body>

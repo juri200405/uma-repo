@@ -20,3 +20,7 @@ func(s *FactorService) GetAll() ([]models.Factor, error) {
 func(s *FactorService) GetAllSorted() ([]models.Factor, error) {
 	return s.Repo.GetAllSorted()
 }
+
+func(s *FactorService) GetSlice(ids []uint) ([]models.Factor, error) {
+	return s.Repo.GetSlice(ids)
+}

@@ -23,3 +23,11 @@ func (r *FactorRepository) GetAllSorted() (factors []models.Factor, err error) {
 	err = r.Db.Order("name, star").Find(&factors).Error
 	return
 }
+
+func (r *FactorRepository) GetSlice(ids []uint) (factors []models.Factor, err error) {
+	if len(ids) == 0 {
+		return
+	}
+	err = r.Db.Where(ids).Find(&factors).Error
+	return
+}

@@ -2,6 +2,7 @@ package datastore
 
 import (
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/juri200405/uma-repo/app/internal/domain/models"
 )
@@ -15,7 +16,7 @@ func (r *UmaRepository) Register(uma *models.Uma) error {
 }
 
 func (r *UmaRepository) GetAll() (umas []models.Uma, err error) {
-	err = r.Db.Find(&umas).Error
+	err = r.Db.Preload(clause.Associations).Find(&umas).Error
 	return
 }
 

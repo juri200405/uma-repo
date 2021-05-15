@@ -1,0 +1,35 @@
+{{define "umaPage"}}
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+		<title>ウマ娘一覧</title>
+		<link rel="stylesheet" href="/public/css/style.css" type="text/css">
+	</head>
+	<body>
+		<h3>ウマ娘</h3>
+		<p>
+			<a href="/uma">登録</a>/
+			<a href="/factors">因子</a>
+		</p>
+		<table>
+			<tr>
+				<th>ID</th>
+				<th>名前</th>
+				<th>評価点</th>
+				<th>継承ウマ娘1</th>
+				<th>継承ウマ娘2</th>
+			</tr>
+			{{range .umaList}}
+			<tr>
+				<td>{{.ID}}</td>
+				<td>{{.Name}}</td>
+				<td>{{.Point}}</td>
+				<td>{{.BleuInheritance.Name}}</td>
+				<td>{{.RedInheritance.Name}}</td>
+			</tr>
+			{{end}}
+		</table>
+	</body>
+</html>
+{{end}}

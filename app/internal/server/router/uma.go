@@ -10,6 +10,7 @@ import (
 func UmaRouter(e *echo.Echo) {
 	r := registry.NewUmaRegistry()
 
+	e.GET("/", handlers.UmaListPage(r))
 	Route := e.Group("/uma")
 	{
 		Route.GET("", handlers.UmaRegisterPage(r))
