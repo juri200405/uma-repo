@@ -8,4 +8,5 @@ type Factor struct {
 	gorm.Model
 	Name string `json:"name" form:"name"`
 	Star int `json:"star" form:"star"`
+	Type string `json:"type" form:"type"`
 }

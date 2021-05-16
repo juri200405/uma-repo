@@ -112,13 +112,13 @@ function addWhiteFactor() {
 			<p>
 				<label for="blue_factor_id">青因子 : </label>
 				<select name="blue_factor_id" id="blue_factor_id">
-					{{range .factorList}}
+					{{range .blueFactorList}}
 					<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
 					{{end}}
 				</select>
 				<label for="red_factor_id">赤因子 : </label>
 				<select name="red_factor_id" id="red_factor_id">
-					{{range .factorList}}
+					{{range .redFactorList}}
 					<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
 					{{end}}
 				</select>
@@ -129,7 +129,7 @@ function addWhiteFactor() {
 				<textarea rows="5" cols="40" id="white_factor_list" readonly></textarea>
 				<label for="white_factor">追加 : </label>
 				<select id="white_factor">
-					{{range .factorList}}
+					{{range .whiteFactorList}}
 					<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
 					{{end}}
 				</select>

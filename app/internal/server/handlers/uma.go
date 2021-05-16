@@ -45,7 +45,7 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 		if err != nil {
 			return err
 		}
-		factorList, err := uc.GetFactorList()
+		blueFactorList, redFactorList, whiteFactorList, err := uc.GetFactorList()
 		if err != nil {
 			return err
 		}
@@ -55,7 +55,9 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 			map[string]interface{}{
 				"nameList": names,
 				"umaList": umas,
-				"factorList": factorList,
+				"blueFactorList": blueFactorList,
+				"redFactorList": redFactorList,
+				"whiteFactorList": whiteFactorList,
 			},
 		)
 	}
@@ -64,8 +66,10 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 func UmaListPage(r *registry.UmaRegistry) echo.HandlerFunc {
 	uc := r.GetUmaUsecase()
 	return func(c echo.Context) error {
+		fmt.Println("uma list page")
 		umas, err := uc.GetAll()
 		if err != nil {
+			fmt.Println(err)
 			return err
 		}
 		return c.Render(

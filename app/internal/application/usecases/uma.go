@@ -9,7 +9,7 @@ type UmaUsecase interface {
 	Register(*models.Uma, []uint) error
 	GetAll() ([]models.Uma, error)
 	GetNames() ([]models.Uma, error)
-	GetFactorList() ([]models.Factor, error)
+	GetFactorList() ([]models.Factor, []models.Factor, []models.Factor, error)
 }
 
 type UmaServices struct {
@@ -34,6 +34,18 @@ func (s *UmaServices) GetNames() ([]models.Uma, error) {
 	return s.Uma.GetNames()
 }
 
-func (s *UmaServices) GetFactorList() ([]models.Factor, error) {
-	return s.Factor.GetAllSorted()
+func (s *UmaServices) GetFactorList() ([]models.Factor, []models.Factor, []models.Factor, error) {
+	blue, err := s.Factor.GetAllSorted("blue")
+	if err != nil {
+		return []models.Factor{}, []models.Factor{}, []models.Factor{}, err
+	}
+	red, err := s.Factor.GetAllSorted("red")
+	if err != nil {
+		return []models.Factor{}, []models.Factor{}, []models.Factor{}, err
+	}
+	white, err := s.Factor.GetAllSorted("white")
+	if err != nil {
+		return []models.Factor{}, []models.Factor{}, []models.Factor{}, err
+	}
+	return blue, red, white, nil
 }

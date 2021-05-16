@@ -25,8 +25,8 @@
 				<td>{{.ID}}</td>
 				<td>{{.Name}}</td>
 				<td>{{.Point}}</td>
-				<td>{{.BleuInheritance.Name}}</td>
-				<td>{{.RedInheritance.Name}}</td>
+				<td>{{if .BlueInheritance}} {{.BlueInheritance.Name}} {{end}}</td>
+				<td>{{if .RedInheritance}} {{.RedInheritance.Name}} {{end}}</td>
 			</tr>
 			{{end}}
 		</table>
