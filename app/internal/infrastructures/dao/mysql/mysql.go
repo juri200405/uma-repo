@@ -43,5 +43,7 @@ func MigrateDb(db *gorm.DB) error {
 	return db.AutoMigrate(
 		&models.Uma{},
 		&models.Factor{},
+		&models.Race{},
+		&models.RaceResult{},
 	)
 }

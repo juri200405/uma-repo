@@ -4,10 +4,18 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>hello</title>
+		<script type="text/javascript" src="/public/js/hello.js"></script>
 	</head>
 	<body>
-		{{template "header" .}}
+		{{template "helloHeader" .}}
 		<div>Hello {{.Word}}</div>
+		<form method="POST" action="/obj">
+			<p>
+			<input type="hidden" name="list" id="hello_page_list" value="">
+			<input type="submit">
+			</p>
+		</form>
+		<input type="button" value="js" onclick="formValueTest()">
 	</body>
 </html>
 {{end}}

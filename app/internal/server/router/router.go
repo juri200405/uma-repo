@@ -8,4 +8,5 @@ func Router(e *echo.Echo) {
 	Hello(e)
 	UmaRouter(e)
 	FactorRouter(e)
+	RaceRouter(e)
 }

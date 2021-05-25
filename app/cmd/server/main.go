@@ -22,6 +22,7 @@ func main() {
 	t := &Template{templates: template.Must(template.New("").ParseGlob("web/templates/**/*.html"))}
 	e.Renderer = t
 	e.Static("/public/css/", "./public/css/")
+	e.Static("/public/js/", "./public/js/")
 
 	router.Router(e)
 	e.Logger.Fatal(e.Start(":3000"))

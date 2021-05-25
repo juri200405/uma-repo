@@ -1,0 +1,20 @@
+{
+	"entities":[
+		{
+			"name": "ジュニア級メイクデビュー",
+			"place": "札幌",
+			"ground": "芝",
+			"distance": 2000,
+			"course": "右",
+			"turn": 1041
+		},
+		{
+			"name": "ジュニア級メイクデビュー",
+			"place": "東京",
+			"ground": "芝",
+			"distance": 1600,
+			"course": "右・内",
+			"turn": 1041
+		}
+	]
+}

@@ -3,12 +3,18 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"encoding/json"
 
 	"github.com/labstack/echo/v4"
 
 	"github.com/juri200405/uma-repo/app/internal/registry"
 	"github.com/juri200405/uma-repo/app/internal/domain/models"
 )
+
+type RaceResultList []models.RaceResult
+func (r *RaceResultList) UnmarshalParam(param string) error {
+	return json.Unmarshal([]byte(param), r)
+}
 
 func UmaRegister(r *registry.UmaRegistry) echo.HandlerFunc {
 	uc := r.GetUmaUsecase()
@@ -20,13 +26,18 @@ func UmaRegister(r *registry.UmaRegistry) echo.HandlerFunc {
 		fmt.Printf("%#v\n", u)
 
 		var wFactorIds []uint
-		if err := echo.FormFieldBinder(c).BindWithDelimiter("white_factor_items", &wFactorIds, ",").BindError(); err != nil {
-			fmt.Println(err)
-			return err
-		}
+		var r RaceResultList
+		if err := echo.FormFieldBinder(c).
+			BindWithDelimiter("white_factor_items", &wFactorIds, ",").
+			BindUnmarshaler("race_results", &r).
+			BindError(); err != nil {
+				fmt.Println(err)
+				return err
+			}
 		fmt.Println(wFactorIds)
+		fmt.Println(r)
 
-		if err := uc.Register(u, wFactorIds); err != nil {
+		if err := uc.Register(u, wFactorIds[1:], r); err != nil {
 			return err
 		} else {
 			return c.Redirect(http.StatusSeeOther, "/uma")
@@ -49,12 +60,17 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 		if err != nil {
 			return err
 		}
+		races, err := uc.GetRaces()
+		if err != nil {
+			return err
+		}
 		return c.Render(
 			http.StatusOK,
 			"umaRegisterPage",
 			map[string]interface{}{
 				"nameList": names,
 				"umaList": umas,
+				"raceList": races,
 				"blueFactorList": blueFactorList,
 				"redFactorList": redFactorList,
 				"whiteFactorList": whiteFactorList,

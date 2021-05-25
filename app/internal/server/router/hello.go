@@ -9,4 +9,5 @@ import (
 func Hello(e *echo.Echo) {
 	e.GET("/hello/:var", handlers.Hello())
 	e.GET("/goodday/:var", handlers.GoodDay())
+	e.POST("/obj", handlers.Object())
 }

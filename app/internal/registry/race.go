@@ -7,22 +7,18 @@ import (
 	"github.com/juri200405/uma-repo/app/internal/application/usecases"
 )
 
-type UmaRegistry struct {
+type RaceRegistry struct {
 }
 
-func NewUmaRegistry() *UmaRegistry {
-	return &UmaRegistry{}
+func NewRaceRegistry() *RaceRegistry {
+	return &RaceRegistry{}
 }
 
-func (r UmaRegistry) GetUmaUsecase() usecases.UmaUsecase {
+func (r RaceRegistry) GetRaceUsecase() usecases.RaceUsecase {
 	db := mysql.GetConnection()
 
-	ur := &datastore.UmaRepository{Db: db}
-	fr := &datastore.FactorRepository{Db: db}
 	rr := &datastore.RaceRepository{Db: db}
-	us := &services.UmaService{Repo: ur}
-	fs := &services.FactorService{Repo: fr}
 	rs := &services.RaceService{Repo: rr}
 
-	return &usecases.UmaServices{Uma: us, Factor: fs, Race: rs}
+	return &usecases.RaceServices{Race: rs}
 }

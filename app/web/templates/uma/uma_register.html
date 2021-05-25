@@ -16,27 +16,11 @@
 		<meta charset="UTF-8">
 		<title>ウマ娘登録画面</title>
 		<link rel="stylesheet" href="/public/css/style.css" type="text/css">
+		<script type="text/javascript" src="/public/js/uma_register.js"></script>
 	</head>
 	<body>
-	<script type="text/javascript">
-	<!--
-let wFactorList = [];
-let wFactorElement;
-function addWhiteFactor() {
-	wFactorElement = document.getElementById("white_factor_items_container");
-	const whiteFactor = document.getElementById("white_factor");
-	wFactorList.push(whiteFactor.value);
-	wFactorElement.innerHTML = `<input type="hidden" name="white_factor_items" value=${wFactorList}>`;
-	document.getElementById("white_factor_list").textContent += whiteFactor.selectedOptions[0].label + '\n';
-	whiteFactor.value = "";
-}
-	-->
-	</script>
 		<h3>ウマ娘登録</h3>
-		<p>
-			<a href="/">一覧</a>/
-			<a href="/factors">因子</a>
-		</p>
+		{{template "umaHeader" .}}
 		<form method="POST" action="/uma">
 			<p>
 				<label for="name">ウマ娘 : </label>
@@ -124,7 +108,7 @@ function addWhiteFactor() {
 				</select>
 			</p>
 			<p>
-				<div id="white_factor_items_container"></div>
+				<input type="hidden" name="white_factor_items" id="white_factor_items" value="0">
 				<label for="white_factor_list">白因子 : </label>
 				<textarea rows="5" cols="40" id="white_factor_list" readonly></textarea>
 				<label for="white_factor">追加 : </label>
@@ -134,6 +118,36 @@ function addWhiteFactor() {
 					{{end}}
 				</select>
 				<input type="button" value="追加" onClick="addWhiteFactor()">
+			</p>
+			<p>
+				<input type="hidden" name="race_results" id="race_results" value="0">
+				<label for="race_result_list">レース結果 : </label>
+				<textarea rows="5" cols="40" id="race_result_list" readonly></textarea>
+				<label for="race">追加 : </label>
+				<select id="race">
+					{{range .raceList}}
+					<option value={{.ID}}>{{.}}</option>
+					{{end}}
+				</select>
+				<select id="race_weather">
+					<option>晴</option>
+					<option>曇</option>
+					<option>雨</option>
+				</select>
+				<select id="race_condition">
+					<option>良</option>
+					<option>稍重</option>
+					<option>重</option>
+					<option>不良</option>
+				</select>
+				<select id="race_tactics">
+					<option>逃げ</option>
+					<option>先行</option>
+					<option>差し</option>
+					<option>追込</option>
+				</select>
+				<input type="number" id=result min="1" max="18">
+				<input type="button" value="追加" onClick="addRaceResults()">
 			</p>
 			<table class="inheritance">
 				<tr>
