@@ -20,9 +20,12 @@ func (r UmaRegistry) GetUmaUsecase() usecases.UmaUsecase {
 	ur := &datastore.UmaRepository{Db: db}
 	fr := &datastore.FactorRepository{Db: db}
 	rr := &datastore.RaceRepository{Db: db}
+	rrr := &datastore.RaceResultRepository{Db: db}
+
 	us := &services.UmaService{Repo: ur}
 	fs := &services.FactorService{Repo: fr}
 	rs := &services.RaceService{Repo: rr}
+	rrs := &services.RaceResultService{Repo: rrr}
 
-	return &usecases.UmaServices{Uma: us, Factor: fs, Race: rs}
+	return &usecases.UmaServices{Uma: us, Factor: fs, Race: rs, RaceResult: rrs}
 }

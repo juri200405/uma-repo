@@ -8,4 +8,7 @@ type UmaRepository interface {
 	Register(*models.Uma) error
 	GetAll() ([]models.Uma, error)
 	GetNames() ([]models.Uma, error)
+	FindById(uint) (models.Uma, error)
+	Update(*models.Uma) error
+	RemoveWhiteFactor(*models.Uma, *models.Factor) error
 }

@@ -15,5 +15,7 @@ func UmaRouter(e *echo.Echo) {
 	{
 		Route.GET("", handlers.UmaRegisterPage(r))
 		Route.POST("", handlers.UmaRegister(r))
+		Route.GET("/:umaID", handlers.UmaDetailPage(r))
+		Route.POST("/:umaID", handlers.UmaUpdater(r))
 	}
 }

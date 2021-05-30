@@ -1,0 +1,265 @@
+{{define "umaDetailPage"}}
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8">
+		<title>ウマ娘{{.purpose}}画面</title>
+		<link rel="stylesheet" href="/public/css/style.css" type="text/css">
+		<script type="text/javascript" src="/public/js/uma_register.js"></script>
+	</head>
+	<body>
+		<h3>ウマ娘{{.purpose}}</h3>
+		{{template "umaHeader" .}}
+		<form method="POST" action="{{.action}}" id="uma">
+			<p>
+				<label for="name">ウマ娘 : </label>
+				<input type="text" name="name" id="name" list="nameList" value="{{if .Uma}}{{.Uma.Name}}{{end}}" required>
+				<datalist id="nameList">
+					{{range .nameList}}
+					<option value="{{.Name}}"></option>
+					{{end}}
+				</datalist>
+			</p>
+			<p>
+				<label for="speed">スピード : </label>
+				<input type="number" name="speed" min="0" max="1200" value="{{if .Uma}}{{.Uma.Speed}}{{else}}0{{end}}" id="speed" required>
+				<label for="stamina">スタミナ : </label>
+				<input type="number" name="stamina" min="0" max="1200" value="{{if .Uma}}{{.Uma.Stamina}}{{else}}0{{end}}" id="stamina" required>
+				<label for="power">パワー : </label>
+				<input type="number" name="power" min="0" max="1200" value="{{if .Uma}}{{.Uma.Power}}{{else}}0{{end}}" id="power" required>
+				<label for="spirit">根性 : </label>
+				<input type="number" name="spirit" min="0" max="1200" value="{{if .Uma}}{{.Uma.Spirit}}{{else}}0{{end}}" id="spirit" required>
+				<label for="intelligence">賢さ : </label>
+				<input type="number" name="intelligence" min="0" max="1200" value="{{if .Uma}}{{.Uma.Intelligence}}{{else}}0{{end}}" id="intelligence" required>
+			</p>
+			<p>
+				<label for="turf">芝 : </label>
+				<select name="turf" id="turf">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Turf 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Turf 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Turf 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Turf 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Turf 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Turf 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Turf 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Turf 1}}selected{{end}}{{end}}>G</option>
+				</select>
+				<label for="dirt">ダート : </label>
+				<select name="dirt" id="dirt">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Dirt 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Dirt 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Dirt 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Dirt 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Dirt 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Dirt 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Dirt 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Dirt 1}}selected{{end}}{{end}}>G</option>
+				</select>
+			</p>
+			<p>
+				<label for="short">短距離 : </label>
+				<select name="short" id="short">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Short 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Short 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Short 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Short 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Short 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Short 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Short 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Short 1}}selected{{end}}{{end}}>G</option>
+				</select>
+				<label for="mile">マイル : </label>
+				<select name="mile" id="mile">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Mile 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Mile 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Mile 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Mile 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Mile 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Mile 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Mile 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Mile 1}}selected{{end}}{{end}}>G</option>
+				</select>
+				<label for="middle">中距離 : </label>
+				<select name="middle" id="middle">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Middle 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Middle 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Middle 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Middle 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Middle 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Middle 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Middle 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Middle 1}}selected{{end}}{{end}}>G</option>
+				</select>
+				<label for="long">長距離 : </label>
+				<select name="long" id="long">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Long 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Long 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Long 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Long 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Long 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Long 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Long 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Long 1}}selected{{end}}{{end}}>G</option>
+				</select>
+			</p>
+			<p>
+				<label for="front">逃げ : </label>
+				<select name="front" id="front">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Front 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Front 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Front 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Front 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Front 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Front 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Front 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Front 1}}selected{{end}}{{end}}>G</option>
+				</select>
+				<label for="stalker">先行 : </label>
+				<select name="stalker" id="stalker">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Stalker 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Stalker 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Stalker 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Stalker 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Stalker 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Stalker 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Stalker 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Stalker 1}}selected{{end}}{{end}}>G</option>
+				</select>
+				<label for="sotp">差し : </label>
+				<select name="sotp" id="sotp">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Sotp 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Sotp 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Sotp 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Sotp 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Sotp 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Sotp 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Sotp 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Sotp 1}}selected{{end}}{{end}}>G</option>
+				</select>
+				<label for="offer">追込 : </label>
+				<select name="offer" id="offer">
+					<option value=8 {{if .Uma}}{{if eq .Uma.Offer 8}}selected{{end}}{{end}}>S</option>
+					<option value=7 {{if .Uma}}{{if eq .Uma.Offer 7}}selected{{end}}{{end}}>A</option>
+					<option value=6 {{if .Uma}}{{if eq .Uma.Offer 6}}selected{{end}}{{end}}>B</option>
+					<option value=5 {{if .Uma}}{{if eq .Uma.Offer 5}}selected{{end}}{{end}}>C</option>
+					<option value=4 {{if .Uma}}{{if eq .Uma.Offer 4}}selected{{end}}{{end}}>D</option>
+					<option value=3 {{if .Uma}}{{if eq .Uma.Offer 3}}selected{{end}}{{end}}>E</option>
+					<option value=2 {{if .Uma}}{{if eq .Uma.Offer 2}}selected{{end}}{{end}}>F</option>
+					<option value=1 {{if .Uma}}{{if eq .Uma.Offer 1}}selected{{end}}{{end}}>G</option>
+				</select>
+			</p>
+			<p>
+				<label for="point">評価点 : </label>
+				<input type="number" name="point" min="0" value="{{if .Uma}}{{.Uma.Point}}{{else}}0{{end}}" id="point" required>
+			</p>
+			<p>
+				<label for="blue_factor_id">青因子 : </label>
+				<select name="blue_factor_id" id="blue_factor_id">
+					{{$blueFactorId := 0}}
+					{{if .Uma}}{{$blueFactorId = .Uma.BlueFactorID}}{{end}}
+					{{range .blueFactorList}}
+					<option value="{{.ID}}" {{if eq $blueFactorId .ID}}selected{{end}}>{{.Name}} : {{.Star}}</option>
+					{{end}}
+				</select>
+				<label for="red_factor_id">赤因子 : </label>
+				<select name="red_factor_id" id="red_factor_id">
+					{{$redFactorId := 0}}
+					{{if .Uma}}{{$redFactorId = .Uma.RedFactorID}}{{end}}
+					{{range .redFactorList}}
+					<option value="{{.ID}}" {{if eq $redFactorId .ID}}selected{{end}}>{{.Name}} : {{.Star}}</option>
+					{{end}}
+				</select>
+			</p>
+			<p>
+				<input type="hidden" name="white_factor_items" id="white_factor_items" value="[0{{range .Uma.WhiteFactors}},{{.ID}}{{end}}]">
+				<label for="white_factor">白因子 : </label>
+				<select id="white_factor">
+					{{range .whiteFactorList}}
+					<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
+					{{end}}
+				</select>
+				<input type="button" value="追加" onClick="addWhiteFactor()">
+				<table id="white_factor_table" class="input_element">
+					<thead>
+					<tr>
+						<th><input type="button" value="削除" onClick="removeWhiteFactor()"></th><th>因子</th>
+					</tr>
+					</thead>
+					<tbody>
+					{{range .Uma.WhiteFactors}}
+					<tr>
+						<td><input type="radio" name="wFactor" value="{{.ID}}"></td><td>{{.Name}} : {{.Star}}</td>
+					</tr>
+					{{end}}
+					</tbody>
+				</table>
+			</p>
+			<p>
+				<input type="hidden" name="race_results" id="race_results" value='[{}{{range .Uma.RaceResults}},{"id": {{.ID}}, "race_id":{{.RaceID}}, "weather":"{{.Weather}}", "condition":"{{.Condition}}", "tactics":"{{.Tactics}}", "result":{{.Result}}}{{end}}]'>
+				<label for="race">レース結果 : </label>
+				<select id="race">
+					{{range .raceList}}
+					<option value={{.ID}}>{{.}}</option>
+					{{end}}
+				</select>
+				<select id="race_weather">
+					<option>晴</option>
+					<option>曇</option>
+					<option>雨</option>
+				</select>
+				<select id="race_condition">
+					<option>良</option>
+					<option>稍重</option>
+					<option>重</option>
+					<option>不良</option>
+				</select>
+				<select id="race_tactics">
+					<option>逃げ</option>
+					<option>先行</option>
+					<option>差し</option>
+					<option>追込</option>
+				</select>
+				<input type="number" id=result min="1" max="18" value=1>
+				<input type="button" value="追加" onClick="addRaceResults()">
+				<table id="race_result_table" class="input_element">
+					<thead>
+					<tr>
+						<th><input type="button" value="削除" onClick="removeRaceResult()"></th><th>レース</th><th>天候</th><th>馬場状態</th><th>作戦</th><th>着順</th>
+					</tr>
+					</thead>
+					<tbody>
+					{{range .Uma.RaceResults}}
+					<tr>
+						<td><input type="radio" name="raceResult" value="{{.RaceID}}"></td><td>{{.Race}}</td><td>{{.Weather}}</td><td>{{.Condition}}</td><td>{{.Tactics}}</td><td>{{.Result}}</td>
+					</tr>
+					{{end}}
+					</tbody>
+				</table>
+			</p>
+			<table class="inheritance">
+				<thead>
+				<tr>
+					<th>継承ウマ娘1</th><th>継承ウマ娘2</th><th>ID</th><th>名前</th><th>評価点</th>
+				</tr>
+				</thead>
+				<tbody>
+				{{$blueInheritanceId := 0}}
+				{{$redInheritanceId := 0}}
+				{{if .Uma}}{{$blueInheritanceId = .Uma.BlueInheritanceID}}{{end}}
+				{{if .Uma}}{{$redInheritanceId = .Uma.RedInheritanceID}}{{end}}
+				{{range .umaList}}
+				<tr>
+					<td><input type="radio" name="blue_inheritance_id" value="{{.ID}}" {{if eq $blueInheritanceId .ID}}checked{{end}}></td>
+					<td><input type="radio" name="red_inheritance_id" value="{{.ID}}" {{if eq $redInheritanceId .ID}}checked{{end}}></td>
+					<td>{{.ID}}</td><td>{{.Name}}</td><td>{{.Point}}</td>
+				</tr>
+				{{end}}
+				</tbody>
+			</table>
+			<p>
+				<input type="submit" value="送信">
+			</p>
+		</form>
+	</body>
+</html>
+{{end}}

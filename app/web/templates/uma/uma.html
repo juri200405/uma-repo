@@ -10,13 +10,17 @@
 		<h3>ウマ娘</h3>
 		{{template "umaHeader" .}}
 		<table>
+			<thead>
 			<tr>
 				<th>ID</th>
 				<th>名前</th>
 				<th>評価点</th>
 				<th>継承ウマ娘1</th>
 				<th>継承ウマ娘2</th>
+				<th></th>
 			</tr>
+			</thead>
+			<tbody>
 			{{range .umaList}}
 			<tr>
 				<td>{{.ID}}</td>
@@ -24,8 +28,10 @@
 				<td>{{.Point}}</td>
 				<td>{{if .BlueInheritance}} {{.BlueInheritance.Name}} {{end}}</td>
 				<td>{{if .RedInheritance}} {{.RedInheritance.Name}} {{end}}</td>
+				<td><a href="/uma/{{.ID}}">編集</a></td>
 			</tr>
 			{{end}}
+			</tbody>
 		</table>
 	</body>
 </html>

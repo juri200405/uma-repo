@@ -11,12 +11,15 @@ type UmaUsecase interface {
 	GetNames() ([]models.Uma, error)
 	GetFactorList() ([]models.Factor, []models.Factor, []models.Factor, error)
 	GetRaces() ([]models.Race, error)
+	FindById(uint) (models.Uma, error)
+	Update(*models.Uma, []uint, []models.RaceResult) error
 }
 
 type UmaServices struct {
 	Uma *services.UmaService
 	Factor *services.FactorService
 	Race *services.RaceService
+	RaceResult *services.RaceResultService
 }
 
 func (s *UmaServices) Register(uma *models.Uma, whiteFactorIds []uint, r []models.RaceResult) error {
@@ -55,4 +58,25 @@ func (s *UmaServices) GetFactorList() ([]models.Factor, []models.Factor, []model
 
 func (s *UmaServices) GetRaces() ([]models.Race, error) {
 	return s.Race.GetAll()
+}
+
+func (s *UmaServices) FindById(id uint) (models.Uma, error) {
+	return s.Uma.FindById(id)
+}
+
+func (s *UmaServices) Update(uma *models.Uma, whiteFactorIds []uint, r []models.RaceResult) error {
+	whiteFactors, err := s.Factor.GetSlice(whiteFactorIds)
+	if err != nil {
+		return err
+	}
+	if err := s.Uma.RemoveWhiteFactor(uma, whiteFactors); err != nil {
+		return err
+	}
+	uma.WhiteFactors = whiteFactors
+	err = s.RaceResult.Update(r, uma)
+	if err != nil {
+		return err
+	}
+	uma.RaceResults = []models.RaceResult{}
+	return s.Uma.Update(uma)
 }

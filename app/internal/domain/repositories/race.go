@@ -6,10 +6,12 @@ import (
 
 type RaceResultRepository interface {
 	Register(*models.RaceResult) error
+	Update(*models.RaceResult) error
+	FindById(uint) (models.RaceResult, error)
+	Delete(*models.RaceResult) error
 }
 
 type RaceRepository interface {
 	Register(*models.Race) error
-	Find(*models.Race) (models.Race, error)
 	GetAll() ([]models.Race, error)
 }

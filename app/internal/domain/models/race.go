@@ -7,7 +7,7 @@ import (
 )
 
 type RaceResult struct {
-	gorm.Model `json:"-"`
+	gorm.Model
 	RaceID uint `json:"race_id" form:"race_id"`
 	Race *Race `json:"-" form:"-"`
 	Weather string `json:"weather" form:"weather"`

@@ -36,8 +36,8 @@ type Uma struct {
 
 	Point uint `json:"point" form:"point"`
 
-	BleuFactorID uint `json:"blue_factor_id" form:"blue_factor_id"`
-	BleuFactor *Factor `json:"blue_factor" form:"blue_factor"`
+	BlueFactorID uint `json:"blue_factor_id" form:"blue_factor_id"`
+	BlueFactor *Factor `json:"blue_factor" form:"blue_factor"`
 	RedFactorID uint `json:"red_factor_id" form:"red_factor_id"`
 	RedFactor *Factor `json:"red_factor" form:"red_factor"`
 	WhiteFactors []Factor `json:"white_factors" form:"white_factors" gorm:"many2many:uma_wfactor"`

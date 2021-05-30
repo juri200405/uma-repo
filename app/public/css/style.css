@@ -1,3 +1,22 @@
+body {
+	background: #ffffff;
+}
+
+table {
+	display: block;
+	overflow: auto;
+}
+
 table.inheritance {
-	height: 20em;
+	height: 250px;
+}
+
+table.input_element {
+	height: 150px;
+}
+
+table thead th {
+	top: 0;
+	position: sticky;
+	background: #ffffff;
 }

@@ -11,9 +11,15 @@ import (
 	"github.com/juri200405/uma-repo/app/internal/domain/models"
 )
 
-type RaceResultList []models.RaceResult
+type (
+	RaceResultList []models.RaceResult
+	WhiteFactors []uint
+)
 func (r *RaceResultList) UnmarshalParam(param string) error {
 	return json.Unmarshal([]byte(param), r)
+}
+func (w *WhiteFactors) UnmarshalParam(param string) error {
+	return json.Unmarshal([]byte(param), w)
 }
 
 func UmaRegister(r *registry.UmaRegistry) echo.HandlerFunc {
@@ -25,10 +31,10 @@ func UmaRegister(r *registry.UmaRegistry) echo.HandlerFunc {
 		}
 		fmt.Printf("%#v\n", u)
 
-		var wFactorIds []uint
+		var wFactorIds WhiteFactors
 		var r RaceResultList
 		if err := echo.FormFieldBinder(c).
-			BindWithDelimiter("white_factor_items", &wFactorIds, ",").
+			BindUnmarshaler("white_factor_items", &wFactorIds).
 			BindUnmarshaler("race_results", &r).
 			BindError(); err != nil {
 				fmt.Println(err)
@@ -37,7 +43,7 @@ func UmaRegister(r *registry.UmaRegistry) echo.HandlerFunc {
 		fmt.Println(wFactorIds)
 		fmt.Println(r)
 
-		if err := uc.Register(u, wFactorIds[1:], r); err != nil {
+		if err := uc.Register(u, wFactorIds, r); err != nil {
 			return err
 		} else {
 			return c.Redirect(http.StatusSeeOther, "/uma")
@@ -66,8 +72,10 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 		}
 		return c.Render(
 			http.StatusOK,
-			"umaRegisterPage",
+			"umaDetailPage",
 			map[string]interface{}{
+				"purpose": "登録",
+				"action": "/uma",
 				"nameList": names,
 				"umaList": umas,
 				"raceList": races,
@@ -82,7 +90,6 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 func UmaListPage(r *registry.UmaRegistry) echo.HandlerFunc {
 	uc := r.GetUmaUsecase()
 	return func(c echo.Context) error {
-		fmt.Println("uma list page")
 		umas, err := uc.GetAll()
 		if err != nil {
 			fmt.Println(err)
@@ -93,6 +100,87 @@ func UmaListPage(r *registry.UmaRegistry) echo.HandlerFunc {
 			"umaPage",
 			map[string]interface{}{
 				"umaList": umas,
+			},
+		)
+	}
+}
+
+func UmaUpdater(r *registry.UmaRegistry) echo.HandlerFunc {
+	uc := r.GetUmaUsecase()
+	return func(c echo.Context) error {
+		var umaID uint
+		if err := echo.PathParamsBinder(c).Uint("umaID", &umaID).BindError(); err != nil{
+			return err
+		}
+		u, err := uc.FindById(umaID)
+		if err != nil {
+			return err
+		}
+		if err := c.Bind(&u); err != nil {
+			return err
+		}
+		fmt.Printf("%#v\n", u)
+
+		var wFactorIds WhiteFactors
+		var r RaceResultList
+		if err := echo.FormFieldBinder(c).
+			BindUnmarshaler("white_factor_items", &wFactorIds).
+			BindUnmarshaler("race_results", &r).
+			BindError(); err != nil {
+				fmt.Println(err)
+				return err
+			}
+		fmt.Println(wFactorIds)
+		fmt.Println(r)
+
+		if err := uc.Update(&u, wFactorIds, r); err != nil {
+			return err
+		} else {
+			return c.Redirect(http.StatusSeeOther, fmt.Sprintf("/uma/%d", umaID))
+		}
+	}
+}
+
+func UmaDetailPage(r *registry.UmaRegistry) echo.HandlerFunc {
+	uc := r.GetUmaUsecase()
+	return func(c echo.Context) error {
+		var umaID uint
+		if err := echo.PathParamsBinder(c).Uint("umaID", &umaID).BindError(); err != nil{
+			return err
+		}
+		umas, err := uc.GetAll()
+		if err != nil {
+			return err
+		}
+		names, err := uc.GetNames()
+		if err != nil {
+			return err
+		}
+		blueFactorList, redFactorList, whiteFactorList, err := uc.GetFactorList()
+		if err != nil {
+			return err
+		}
+		races, err := uc.GetRaces()
+		if err != nil {
+			return err
+		}
+		uma, err := uc.FindById(umaID)
+		if err != nil {
+			return err
+		}
+		return c.Render(
+			http.StatusOK,
+			"umaDetailPage",
+			map[string]interface{}{
+				"purpose": "編集",
+				"action": fmt.Sprintf("/uma/%d", umaID),
+				"nameList": names,
+				"umaList": umas,
+				"raceList": races,
+				"blueFactorList": blueFactorList,
+				"redFactorList": redFactorList,
+				"whiteFactorList": whiteFactorList,
+				"Uma": uma,
 			},
 		)
 	}
