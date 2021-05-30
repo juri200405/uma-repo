@@ -6,8 +6,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/juri200405/uma-repo/app/internal/registry"
 	"github.com/juri200405/uma-repo/app/internal/domain/models"
+	"github.com/juri200405/uma-repo/app/internal/registry"
 )
 
 func RaceRegister(r *registry.RaceRegistry) echo.HandlerFunc {
@@ -33,7 +33,7 @@ func RacePage(r *registry.RaceRegistry) echo.HandlerFunc {
 		if races, err := uc.GetRaces(); err != nil {
 			return err
 		} else {
-			return c.Render(http.StatusOK, "racePage", map[string]interface{}{"raceList":races})
+			return c.Render(http.StatusOK, "racePage", map[string]interface{}{"raceList": races})
 		}
 	}
 }

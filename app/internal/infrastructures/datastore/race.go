@@ -22,7 +22,6 @@ func (r *RaceRepository) GetAll() (races []models.Race, err error) {
 	return
 }
 
-
 type RaceResultRepository struct {
 	Db *gorm.DB
 }

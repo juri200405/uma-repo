@@ -16,9 +16,9 @@ type UmaUsecase interface {
 }
 
 type UmaServices struct {
-	Uma *services.UmaService
-	Factor *services.FactorService
-	Race *services.RaceService
+	Uma        *services.UmaService
+	Factor     *services.FactorService
+	Race       *services.RaceService
 	RaceResult *services.RaceResultService
 }
 

@@ -25,7 +25,7 @@ func (r *UmaRepository) GetNames() (umas []models.Uma, err error) {
 	return
 }
 
-func (r *UmaRepository) FindById(id uint) (uma models.Uma, err error){
+func (r *UmaRepository) FindById(id uint) (uma models.Uma, err error) {
 	err = r.Db.Preload(clause.Associations).Preload("RaceResults.Race").First(&uma, id).Error
 	return
 }

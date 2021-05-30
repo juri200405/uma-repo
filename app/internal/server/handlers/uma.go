@@ -1,20 +1,21 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"encoding/json"
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/juri200405/uma-repo/app/internal/registry"
 	"github.com/juri200405/uma-repo/app/internal/domain/models"
+	"github.com/juri200405/uma-repo/app/internal/registry"
 )
 
 type (
 	RaceResultList []models.RaceResult
-	WhiteFactors []uint
+	WhiteFactors   []uint
 )
+
 func (r *RaceResultList) UnmarshalParam(param string) error {
 	return json.Unmarshal([]byte(param), r)
 }
@@ -37,9 +38,9 @@ func UmaRegister(r *registry.UmaRegistry) echo.HandlerFunc {
 			BindUnmarshaler("white_factor_items", &wFactorIds).
 			BindUnmarshaler("race_results", &r).
 			BindError(); err != nil {
-				fmt.Println(err)
-				return err
-			}
+			fmt.Println(err)
+			return err
+		}
 		fmt.Println(wFactorIds)
 		fmt.Println(r)
 
@@ -74,13 +75,13 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 			http.StatusOK,
 			"umaDetailPage",
 			map[string]interface{}{
-				"purpose": "登録",
-				"action": "/uma",
-				"nameList": names,
-				"umaList": umas,
-				"raceList": races,
-				"blueFactorList": blueFactorList,
-				"redFactorList": redFactorList,
+				"purpose":         "登録",
+				"action":          "/uma",
+				"nameList":        names,
+				"umaList":         umas,
+				"raceList":        races,
+				"blueFactorList":  blueFactorList,
+				"redFactorList":   redFactorList,
 				"whiteFactorList": whiteFactorList,
 			},
 		)
@@ -109,7 +110,7 @@ func UmaUpdater(r *registry.UmaRegistry) echo.HandlerFunc {
 	uc := r.GetUmaUsecase()
 	return func(c echo.Context) error {
 		var umaID uint
-		if err := echo.PathParamsBinder(c).Uint("umaID", &umaID).BindError(); err != nil{
+		if err := echo.PathParamsBinder(c).Uint("umaID", &umaID).BindError(); err != nil {
 			return err
 		}
 		u, err := uc.FindById(umaID)
@@ -127,9 +128,9 @@ func UmaUpdater(r *registry.UmaRegistry) echo.HandlerFunc {
 			BindUnmarshaler("white_factor_items", &wFactorIds).
 			BindUnmarshaler("race_results", &r).
 			BindError(); err != nil {
-				fmt.Println(err)
-				return err
-			}
+			fmt.Println(err)
+			return err
+		}
 		fmt.Println(wFactorIds)
 		fmt.Println(r)
 
@@ -145,7 +146,7 @@ func UmaDetailPage(r *registry.UmaRegistry) echo.HandlerFunc {
 	uc := r.GetUmaUsecase()
 	return func(c echo.Context) error {
 		var umaID uint
-		if err := echo.PathParamsBinder(c).Uint("umaID", &umaID).BindError(); err != nil{
+		if err := echo.PathParamsBinder(c).Uint("umaID", &umaID).BindError(); err != nil {
 			return err
 		}
 		umas, err := uc.GetAll()
@@ -172,15 +173,15 @@ func UmaDetailPage(r *registry.UmaRegistry) echo.HandlerFunc {
 			http.StatusOK,
 			"umaDetailPage",
 			map[string]interface{}{
-				"purpose": "編集",
-				"action": fmt.Sprintf("/uma/%d", umaID),
-				"nameList": names,
-				"umaList": umas,
-				"raceList": races,
-				"blueFactorList": blueFactorList,
-				"redFactorList": redFactorList,
+				"purpose":         "編集",
+				"action":          fmt.Sprintf("/uma/%d", umaID),
+				"nameList":        names,
+				"umaList":         umas,
+				"raceList":        races,
+				"blueFactorList":  blueFactorList,
+				"redFactorList":   redFactorList,
 				"whiteFactorList": whiteFactorList,
-				"Uma": uma,
+				"Uma":             uma,
 			},
 		)
 	}

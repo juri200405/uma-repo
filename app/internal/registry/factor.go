@@ -1,10 +1,10 @@
 package registry
 
 import (
+	"github.com/juri200405/uma-repo/app/internal/application/usecases"
+	"github.com/juri200405/uma-repo/app/internal/domain/services"
 	"github.com/juri200405/uma-repo/app/internal/infrastructures/dao/mysql"
 	"github.com/juri200405/uma-repo/app/internal/infrastructures/datastore"
-	"github.com/juri200405/uma-repo/app/internal/domain/services"
-	"github.com/juri200405/uma-repo/app/internal/application/usecases"
 )
 
 type FactorRegistry struct {

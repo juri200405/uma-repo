@@ -8,23 +8,23 @@ import (
 
 type RaceResult struct {
 	gorm.Model
-	RaceID uint `json:"race_id" form:"race_id"`
-	Race *Race `json:"-" form:"-"`
-	Weather string `json:"weather" form:"weather"`
+	RaceID    uint   `json:"race_id" form:"race_id"`
+	Race      *Race  `json:"-" form:"-"`
+	Weather   string `json:"weather" form:"weather"`
 	Condition string `json:"condition" form:"condition"`
-	Tactics string `json:"tactics" form:"tactics"`
-	Result uint `json:"result" form:"result"`
-	UmaID uint `json:"-"`
+	Tactics   string `json:"tactics" form:"tactics"`
+	Result    uint   `json:"result" form:"result"`
+	UmaID     uint   `json:"-"`
 }
 
 type Race struct {
 	gorm.Model `json:"-"`
-	Name string `json:"name" form:"name"`
-	Place string `json:"place" form:"place"`
-	Ground string `json:"ground" form:"ground"`
-	Length uint `json:"length" form:"length"`
-	Course string `json:"course" form:"course"`
-	Turn uint `json:"turn" form:"turn"`
+	Name       string `json:"name" form:"name"`
+	Place      string `json:"place" form:"place"`
+	Ground     string `json:"ground" form:"ground"`
+	Length     uint   `json:"length" form:"length"`
+	Course     string `json:"course" form:"course"`
+	Turn       uint   `json:"turn" form:"turn"`
 }
 
 var (

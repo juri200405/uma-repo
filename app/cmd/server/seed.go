@@ -1,7 +1,6 @@
 package main
 
-import (
-)
+import ()
 
 const (
 	raceJsonPath = "json/race.json"

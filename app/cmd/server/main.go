@@ -9,7 +9,7 @@ import (
 	"github.com/juri200405/uma-repo/app/internal/server/router"
 )
 
-type Template struct{
+type Template struct {
 	templates *template.Template
 }
 

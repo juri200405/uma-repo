@@ -1,16 +1,16 @@
 package handlers
 
 import (
-	"net/http"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"net/http"
 
 	"github.com/labstack/echo/v4"
 )
 
 type Race struct {
-	Name string `json:name`
-	Result uint `json:result`
+	Name   string `json:name`
+	Result uint   `json:result`
 }
 type Races []Race
 
@@ -36,8 +36,6 @@ func Object() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var r Races
 		if err := echo.FormFieldBinder(c).BindUnmarshaler("list", &r).BindError(); err != nil {
-		// if err := echo.FormFieldBinder(c).CustomFunc("list", getBindFunc(&r)).BindError(); err != nil {
-		// if err := c.Bind(tmpList); err != nil {
 			fmt.Println(err)
 			return c.String(http.StatusOK, "エラーだよ")
 		}

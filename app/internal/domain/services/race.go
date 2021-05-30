@@ -20,7 +20,6 @@ func (s *RaceService) GetAll() ([]models.Race, error) {
 	return s.Repo.GetAll()
 }
 
-
 type RaceResultService struct {
 	Repo repositories.RaceResultRepository
 }
@@ -35,7 +34,7 @@ func (s *RaceResultService) Update(races []models.RaceResult, uma *models.Uma) e
 	}
 	for _, r := range races {
 		r.UmaID = uma.ID
-		if _, err := s.Repo.FindById(r.ID); errors.Is(err, types.ErrRecordNotFound){
+		if _, err := s.Repo.FindById(r.ID); errors.Is(err, types.ErrRecordNotFound) {
 			if e := s.Repo.Register(&r); e != nil {
 				return e
 			}

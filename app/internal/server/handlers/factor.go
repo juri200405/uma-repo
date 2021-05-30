@@ -6,8 +6,8 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/juri200405/uma-repo/app/internal/registry"
 	"github.com/juri200405/uma-repo/app/internal/domain/models"
+	"github.com/juri200405/uma-repo/app/internal/registry"
 )
 
 func FactorRegister(r *registry.FactorRegistry) echo.HandlerFunc {
@@ -33,7 +33,7 @@ func FactorPage(r *registry.FactorRegistry) echo.HandlerFunc {
 		if factors, err := uc.GetAll(); err != nil {
 			return err
 		} else {
-			return c.Render(http.StatusOK, "factorPage", map[string]interface{}{"factorList":factors})
+			return c.Render(http.StatusOK, "factorPage", map[string]interface{}{"factorList": factors})
 		}
 	}
 }

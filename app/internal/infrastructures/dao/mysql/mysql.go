@@ -5,8 +5,8 @@ import (
 	"os"
 	"time"
 
-	"gorm.io/gorm"
 	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 
 	"github.com/juri200405/uma-repo/app/internal/domain/models"
 )
@@ -26,7 +26,7 @@ func GetConnection() Db {
 func ConnectDb() *gorm.DB {
 	dataSource := os.Getenv("MYSQL_DATASOURCE")
 	maxRetries := 20
-	for i :=0; i < maxRetries; i++ {
+	for i := 0; i < maxRetries; i++ {
 		db, err := gorm.Open(mysql.Open(dataSource), &gorm.Config{})
 		if err != nil {
 			log.Printf("failed to connect to database. retrying... (%d/%d) %v", i+1, maxRetries, err)
