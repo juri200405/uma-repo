@@ -14,5 +14,6 @@ func FactorRouter(e *echo.Echo) {
 	{
 		Route.GET("", handlers.FactorPage(r))
 		Route.POST("", handlers.FactorRegister(r))
+		Route.DELETE("/:factorID", handlers.FactorDelete(r))
 	}
 }

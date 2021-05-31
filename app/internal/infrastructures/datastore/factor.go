@@ -31,3 +31,7 @@ func (r *FactorRepository) GetSlice(ids []uint) (factors []models.Factor, err er
 	err = r.Db.Where(ids).Find(&factors).Error
 	return
 }
+
+func (r *FactorRepository) Delete(id uint) error {
+	return r.Db.Delete(&models.Factor{}, id).Error
+}

@@ -9,4 +9,5 @@ type FactorRepository interface {
 	GetAll() ([]models.Factor, error)
 	GetAllSorted(string) ([]models.Factor, error)
 	GetSlice([]uint) ([]models.Factor, error)
+	Delete(uint) error
 }

@@ -8,6 +8,7 @@ import (
 type FactorUsecase interface {
 	Register(*models.Factor) error
 	GetAll() ([]models.Factor, error)
+	Delete(uint) error
 }
 
 type FactorServices struct {
@@ -20,4 +21,8 @@ func (s *FactorServices) Register(factor *models.Factor) error {
 
 func (s *FactorServices) GetAll() ([]models.Factor, error) {
 	return s.Factor.GetAll()
+}
+
+func (s *FactorServices) Delete(id uint) error {
+	return s.Factor.Delete(id)
 }

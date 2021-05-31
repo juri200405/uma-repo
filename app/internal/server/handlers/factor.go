@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 
@@ -34,6 +35,21 @@ func FactorPage(r *registry.FactorRegistry) echo.HandlerFunc {
 			return err
 		} else {
 			return c.Render(http.StatusOK, "factorPage", map[string]interface{}{"factorList": factors})
+		}
+	}
+}
+
+func FactorDelete(r *registry.FactorRegistry) echo.HandlerFunc {
+	uc := r.GetFactorUsecase()
+	return func(c echo.Context) error {
+		id, err := strconv.ParseUint(c.Param("factorID"), 10, 64)
+		if err != nil {
+			return err
+		}
+		if err := uc.Delete(uint(id)); err != nil {
+			return err
+		} else {
+			return c.NoContent(http.StatusOK)
 		}
 	}
 }

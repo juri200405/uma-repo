@@ -24,3 +24,7 @@ func (s *FactorService) GetAllSorted(t string) ([]models.Factor, error) {
 func (s *FactorService) GetSlice(ids []uint) ([]models.Factor, error) {
 	return s.Repo.GetSlice(ids)
 }
+
+func (s *FactorService) Delete(id uint) error {
+	return s.Repo.Delete(id)
+}
