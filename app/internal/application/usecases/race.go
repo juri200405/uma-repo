@@ -8,6 +8,7 @@ import (
 type RaceUsecase interface {
 	Register(*models.Race) error
 	GetRaces() ([]models.Race, error)
+	Delete(uint) error
 }
 
 type RaceServices struct {
@@ -20,4 +21,8 @@ func (s *RaceServices) Register(r *models.Race) error {
 
 func (s *RaceServices) GetRaces() ([]models.Race, error) {
 	return s.Race.GetAll()
+}
+
+func (s *RaceServices) Delete(id uint) error {
+	return s.Race.Delete(id)
 }

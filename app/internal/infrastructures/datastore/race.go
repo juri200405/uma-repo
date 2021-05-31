@@ -22,6 +22,10 @@ func (r *RaceRepository) GetAll() (races []models.Race, err error) {
 	return
 }
 
+func (r *RaceRepository) Delete(id uint) (err error) {
+	return r.Db.Delete(&models.Race{}, id).Error
+}
+
 type RaceResultRepository struct {
 	Db *gorm.DB
 }

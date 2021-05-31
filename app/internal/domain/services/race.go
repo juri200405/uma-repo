@@ -20,6 +20,10 @@ func (s *RaceService) GetAll() ([]models.Race, error) {
 	return s.Repo.GetAll()
 }
 
+func (s *RaceService) Delete(id uint) error {
+	return s.Repo.Delete(id)
+}
+
 type RaceResultService struct {
 	Repo repositories.RaceResultRepository
 }

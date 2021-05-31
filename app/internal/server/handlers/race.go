@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 
@@ -34,6 +35,21 @@ func RacePage(r *registry.RaceRegistry) echo.HandlerFunc {
 			return err
 		} else {
 			return c.Render(http.StatusOK, "racePage", map[string]interface{}{"raceList": races})
+		}
+	}
+}
+
+func RaceDelete(r *registry.RaceRegistry) echo.HandlerFunc {
+	uc := r.GetRaceUsecase()
+	return func(c echo.Context) error {
+		id, err := strconv.ParseUint(c.Param("raceID"), 10, 64)
+		if err != nil {
+			return err
+		}
+		if err := uc.Delete(uint(id)); err != nil {
+			return err
+		} else {
+			return c.NoContent(http.StatusOK)
 		}
 	}
 }
