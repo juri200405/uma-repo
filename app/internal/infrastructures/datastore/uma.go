@@ -16,7 +16,13 @@ func (r *UmaRepository) Register(uma *models.Uma) error {
 }
 
 func (r *UmaRepository) GetAll() (umas []models.Uma, err error) {
-	err = r.Db.Preload(clause.Associations).Find(&umas).Error
+	err = r.Db.
+		Preload(clause.Associations).
+		Preload("BlueInheritance.BlueFactor").
+		Preload("BlueInheritance.RedFactor").
+		Preload("RedInheritance.BlueFactor").
+		Preload("RedInheritance.RedFactor").
+		Find(&umas).Error
 	return
 }
 
@@ -26,7 +32,10 @@ func (r *UmaRepository) GetNames() (umas []models.Uma, err error) {
 }
 
 func (r *UmaRepository) FindById(id uint) (uma models.Uma, err error) {
-	err = r.Db.Preload(clause.Associations).Preload("RaceResults.Race").First(&uma, id).Error
+	err = r.Db.
+		Preload(clause.Associations).
+		Preload("RaceResults.Race").
+		First(&uma, id).Error
 	return
 }
 

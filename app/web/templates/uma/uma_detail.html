@@ -239,7 +239,25 @@
 			<table class="inheritance">
 				<thead>
 				<tr>
-					<th>継承ウマ娘1</th><th>継承ウマ娘2</th><th>ID</th><th>名前</th><th>評価点</th>
+					<th>継承ウマ娘1</th>
+					<th>継承ウマ娘2</th>
+					<th>ID</th>
+					<th>名前</th>
+					<th>評価点</th>
+					<th>継承ウマ娘1</th>
+					<th>継承ウマ娘2</th>
+					<th>青因子</th>
+					<th>星</th>
+					<th>継承青因子1</th>
+					<th>星</th>
+					<th>継承青因子2</th>
+					<th>星</th>
+					<th>赤因子</th>
+					<th>星</th>
+					<th>継承赤因子1</th>
+					<th>星</th>
+					<th>継承赤因子2</th>
+					<th>星</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -251,7 +269,23 @@
 				<tr>
 					<td><input type="radio" name="blue_inheritance_id" value="{{.ID}}" {{if eq $blueInheritanceId .ID}}checked{{end}}></td>
 					<td><input type="radio" name="red_inheritance_id" value="{{.ID}}" {{if eq $redInheritanceId .ID}}checked{{end}}></td>
-					<td>{{.ID}}</td><td>{{.Name}}</td><td>{{.Point}}</td>
+					<td>{{.ID}}</td>
+					<td>{{.Name}}</td>
+					<td>{{.Point}}</td>
+					<td>{{if .BlueInheritance}} {{.BlueInheritance.Name}} {{end}}</td>
+					<td>{{if .RedInheritance}} {{.RedInheritance.Name}} {{end}}</td>
+					<td>{{if .BlueFactor}} {{.BlueFactor.Name}} {{end}}</td>
+					<td>{{if .BlueFactor}} {{.BlueFactor.Star}} {{end}}</td>
+					<td>{{if .BlueInheritance}} {{.BlueInheritance.BlueFactor.Name}} {{end}}</td>
+					<td>{{if .BlueInheritance}} {{.BlueInheritance.BlueFactor.Star}} {{end}}</td>
+					<td>{{if .RedInheritance}} {{.RedInheritance.BlueFactor.Name}} {{end}}</td>
+					<td>{{if .RedInheritance}} {{.RedInheritance.BlueFactor.Star}} {{end}}</td>
+					<td>{{if .RedFactor}} {{.RedFactor.Name}} {{end}}</td>
+					<td>{{if .RedFactor}} {{.RedFactor.Star}} {{end}}</td>
+					<td>{{if .BlueInheritance}} {{.BlueInheritance.RedFactor.Name}} {{end}}</td>
+					<td>{{if .BlueInheritance}} {{.BlueInheritance.RedFactor.Star}} {{end}}</td>
+					<td>{{if .RedInheritance}} {{.RedInheritance.RedFactor.Name}} {{end}}</td>
+					<td>{{if .RedInheritance}} {{.RedInheritance.RedFactor.Star}} {{end}}</td>
 				</tr>
 				{{end}}
 				</tbody>
