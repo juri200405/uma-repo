@@ -248,15 +248,7 @@
 					<th>継承ウマ娘2</th>
 					<th>青因子</th>
 					<th>星</th>
-					<th>継承青因子1</th>
-					<th>星</th>
-					<th>継承青因子2</th>
-					<th>星</th>
 					<th>赤因子</th>
-					<th>星</th>
-					<th>継承赤因子1</th>
-					<th>星</th>
-					<th>継承赤因子2</th>
 					<th>星</th>
 				</tr>
 				</thead>
@@ -276,16 +268,8 @@
 					<td>{{if .RedInheritance}} {{.RedInheritance.Name}} {{end}}</td>
 					<td>{{if .BlueFactor}} {{.BlueFactor.Name}} {{end}}</td>
 					<td>{{if .BlueFactor}} {{.BlueFactor.Star}} {{end}}</td>
-					<td>{{if .BlueInheritance}} {{.BlueInheritance.BlueFactor.Name}} {{end}}</td>
-					<td>{{if .BlueInheritance}} {{.BlueInheritance.BlueFactor.Star}} {{end}}</td>
-					<td>{{if .RedInheritance}} {{.RedInheritance.BlueFactor.Name}} {{end}}</td>
-					<td>{{if .RedInheritance}} {{.RedInheritance.BlueFactor.Star}} {{end}}</td>
 					<td>{{if .RedFactor}} {{.RedFactor.Name}} {{end}}</td>
 					<td>{{if .RedFactor}} {{.RedFactor.Star}} {{end}}</td>
-					<td>{{if .BlueInheritance}} {{.BlueInheritance.RedFactor.Name}} {{end}}</td>
-					<td>{{if .BlueInheritance}} {{.BlueInheritance.RedFactor.Star}} {{end}}</td>
-					<td>{{if .RedInheritance}} {{.RedInheritance.RedFactor.Name}} {{end}}</td>
-					<td>{{if .RedInheritance}} {{.RedInheritance.RedFactor.Star}} {{end}}</td>
 				</tr>
 				{{end}}
 				</tbody>
