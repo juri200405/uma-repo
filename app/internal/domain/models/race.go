@@ -24,8 +24,10 @@ type Race struct {
 	Ground     string `json:"ground" form:"ground"`
 	Length     uint   `json:"length" form:"length"`
 	Course     string `json:"course" form:"course"`
-	Turn       uint   `json:"turn" form:"turn"`
+	Turn       Turn   `json:"turn" form:"turn"`
 }
+
+type Turn uint
 
 var (
 	year = []string{"ジュニア級", "クラシック級", "シニア級", "ファイナルズ"}
@@ -33,16 +35,23 @@ var (
 )
 
 func (r Race) String() string {
-	y := r.Turn / 1000
-	m := (r.Turn % 1000) / 10
-	t := r.Turn % 10
 	return fmt.Sprintf(
-		"%s : %s %s %dm %s (%s %d月%s)",
+		"%s : %s %s %dm %s (%s)",
 		r.Name,
 		r.Place,
 		r.Ground,
 		r.Length,
 		r.Course,
+		r.Turn.String(),
+	)
+}
+
+func (i Turn) String() string {
+	y := i / 1000
+	m := (i % 1000) / 10
+	t := i % 10
+	return fmt.Sprintf(
+		"%s %d月%s",
 		year[y-1],
 		m,
 		turn[t-1],

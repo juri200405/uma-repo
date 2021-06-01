@@ -118,11 +118,23 @@
 		</form>
 		<table>
 			<tr>
-				<th>ID</th><th>詳細</th>
+				<th>ID</th>
+				<th>レース名</th>
+				<th>場所</th>
+				<th>馬場</th>
+				<th>距離</th>
+				<th>コース</th>
+				<th>時期</th>
 			</tr>
 			{{range .raceList}}
 			<tr>
-				<td>{{.ID}}</td><td>{{.}}</td>
+				<td>{{.ID}}</td>
+				<td>{{.Name}}</td>
+				<td>{{.Place}}</td>
+				<td>{{.Ground}}</td>
+				<td>{{.Length}}</td>
+				<td>{{.Course}}</td>
+				<td>{{.Turn}}</td>
 			</tr>
 			{{end}}
 		</table>
