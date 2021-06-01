@@ -13,6 +13,6 @@ type RaceResultRepository interface {
 
 type RaceRepository interface {
 	Register(*models.Race) error
-	GetAll() ([]models.Race, error)
+	GetAll(string) ([]models.Race, error)
 	Delete(uint) error
 }

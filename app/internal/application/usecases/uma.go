@@ -10,7 +10,7 @@ type UmaUsecase interface {
 	GetAll() ([]models.Uma, error)
 	GetNames() ([]models.Uma, error)
 	GetFactorList() ([]models.Factor, []models.Factor, []models.Factor, error)
-	GetRaces() ([]models.Race, error)
+	GetRaces(string) ([]models.Race, error)
 	FindById(uint) (models.Uma, error)
 	Update(*models.Uma, []uint, []models.RaceResult) error
 }
@@ -56,8 +56,8 @@ func (s *UmaServices) GetFactorList() ([]models.Factor, []models.Factor, []model
 	return blue, red, white, nil
 }
 
-func (s *UmaServices) GetRaces() ([]models.Race, error) {
-	return s.Race.GetAll()
+func (s *UmaServices) GetRaces(sortKey string) ([]models.Race, error) {
+	return s.Race.GetAll(sortKey)
 }
 
 func (s *UmaServices) FindById(id uint) (models.Uma, error) {

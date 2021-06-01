@@ -17,8 +17,8 @@ func (r *RaceRepository) Register(race *models.Race) error {
 	return r.Db.Create(race).Error
 }
 
-func (r *RaceRepository) GetAll() (races []models.Race, err error) {
-	err = r.Db.Find(&races).Error
+func (r *RaceRepository) GetAll(sortKey string) (races []models.Race, err error) {
+	err = r.Db.Order(sortKey).Find(&races).Error
 	return
 }
 

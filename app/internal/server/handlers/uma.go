@@ -67,7 +67,7 @@ func UmaRegisterPage(r *registry.UmaRegistry) echo.HandlerFunc {
 		if err != nil {
 			return err
 		}
-		races, err := uc.GetRaces()
+		races, err := uc.GetRaces("Turn")
 		if err != nil {
 			return err
 		}
@@ -161,7 +161,7 @@ func UmaDetailPage(r *registry.UmaRegistry) echo.HandlerFunc {
 		if err != nil {
 			return err
 		}
-		races, err := uc.GetRaces()
+		races, err := uc.GetRaces("turn")
 		if err != nil {
 			return err
 		}

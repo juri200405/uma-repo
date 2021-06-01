@@ -31,7 +31,7 @@ func RaceRegister(r *registry.RaceRegistry) echo.HandlerFunc {
 func RacePage(r *registry.RaceRegistry) echo.HandlerFunc {
 	uc := r.GetRaceUsecase()
 	return func(c echo.Context) error {
-		if races, err := uc.GetRaces(); err != nil {
+		if races, err := uc.GetRaces("id"); err != nil {
 			return err
 		} else {
 			return c.Render(http.StatusOK, "racePage", map[string]interface{}{"raceList": races})

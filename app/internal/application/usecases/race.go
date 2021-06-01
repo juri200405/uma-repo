@@ -7,7 +7,7 @@ import (
 
 type RaceUsecase interface {
 	Register(*models.Race) error
-	GetRaces() ([]models.Race, error)
+	GetRaces(string) ([]models.Race, error)
 	Delete(uint) error
 }
 
@@ -19,8 +19,8 @@ func (s *RaceServices) Register(r *models.Race) error {
 	return s.Race.Register(r)
 }
 
-func (s *RaceServices) GetRaces() ([]models.Race, error) {
-	return s.Race.GetAll()
+func (s *RaceServices) GetRaces(sortKey string) ([]models.Race, error) {
+	return s.Race.GetAll(sortKey)
 }
 
 func (s *RaceServices) Delete(id uint) error {

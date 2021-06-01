@@ -16,8 +16,8 @@ func (s *RaceService) Register(r *models.Race) error {
 	return s.Repo.Register(r)
 }
 
-func (s *RaceService) GetAll() ([]models.Race, error) {
-	return s.Repo.GetAll()
+func (s *RaceService) GetAll(sortKey string) ([]models.Race, error) {
+	return s.Repo.GetAll(sortKey)
 }
 
 func (s *RaceService) Delete(id uint) error {
