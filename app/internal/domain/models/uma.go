@@ -42,4 +42,6 @@ type Uma struct {
 	WhiteFactors []Factor `json:"white_factors" form:"white_factors" gorm:"many2many:uma_wfactor"`
 
 	RaceResults []RaceResult `json:"races" form:"races"`
+
+	Transferred bool `json:"transferred" form:"transferred"`
 }

@@ -117,6 +117,7 @@ func UmaUpdater(r *registry.UmaRegistry) echo.HandlerFunc {
 		if err != nil {
 			return err
 		}
+		u.Transferred = false
 		if err := c.Bind(&u); err != nil {
 			return err
 		}

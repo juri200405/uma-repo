@@ -30,6 +30,7 @@
 				<th>継承赤因子2</th>
 				<th>星</th>
 				<th></th>
+				<th></th>
 			</tr>
 			</thead>
 			<tbody>
@@ -53,6 +54,7 @@
 				<td>{{if .RedInheritance}} {{.RedInheritance.RedFactor.Name}} {{end}}</td>
 				<td>{{if .RedInheritance}} {{.RedInheritance.RedFactor.Star}} {{end}}</td>
 				<td><a href="/uma/{{.ID}}">編集</a></td>
+				<td>{{if eq .Transferred true}}移籍済み{{end}}</td>
 			</tr>
 			{{end}}
 			</tbody>

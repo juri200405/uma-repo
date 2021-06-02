@@ -276,6 +276,10 @@
 				</tbody>
 			</table>
 			<p>
+				<input type="checkbox" name="transferred" id="transferred" value="true" {{if .Uma}}{{if eq .Uma.Transferred true}}checked{{end}}{{end}}>
+				<label for="transferred">移籍ウマ娘</label>
+			</p>
+			<p>
 				<input type="submit" value="送信">
 			</p>
 		</form>
