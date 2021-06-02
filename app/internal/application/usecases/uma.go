@@ -41,15 +41,15 @@ func (s *UmaServices) GetNames() ([]models.Uma, error) {
 }
 
 func (s *UmaServices) GetFactorList() ([]models.Factor, []models.Factor, []models.Factor, error) {
-	blue, err := s.Factor.GetAllSorted("blue")
+	blue, err := s.Factor.GetAllSorted([]string{"blue"})
 	if err != nil {
 		return []models.Factor{}, []models.Factor{}, []models.Factor{}, err
 	}
-	red, err := s.Factor.GetAllSorted("red")
+	red, err := s.Factor.GetAllSorted([]string{"red"})
 	if err != nil {
 		return []models.Factor{}, []models.Factor{}, []models.Factor{}, err
 	}
-	white, err := s.Factor.GetAllSorted("white")
+	white, err := s.Factor.GetAllSorted([]string{"white", "green"})
 	if err != nil {
 		return []models.Factor{}, []models.Factor{}, []models.Factor{}, err
 	}

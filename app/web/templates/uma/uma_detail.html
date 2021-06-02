@@ -175,7 +175,7 @@
 				<label for="white_factor">白因子 : </label>
 				<select id="white_factor">
 					{{range .whiteFactorList}}
-					<option value="{{.ID}}">{{.Name}} : {{.Star}}</option>
+					<option value="{{.ID}}">{{.Name}} : {{.Star}}{{if eq .Type "green"}} (固有){{end}}</option>
 					{{end}}
 				</select>
 				<input type="button" value="追加" onClick="addWhiteFactor()">
@@ -188,7 +188,7 @@
 					<tbody>
 					{{range .Uma.WhiteFactors}}
 					<tr>
-						<td><input type="radio" name="wFactor" value="{{.ID}}"></td><td>{{.Name}} : {{.Star}}</td>
+						<td><input type="radio" name="wFactor" value="{{.ID}}"></td><td>{{.Name}} : {{.Star}}{{if eq .Type "green"}} (固有){{end}}</td>
 					</tr>
 					{{end}}
 					</tbody>

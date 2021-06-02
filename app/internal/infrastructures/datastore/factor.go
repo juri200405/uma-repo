@@ -19,8 +19,8 @@ func (r *FactorRepository) GetAll() (factors []models.Factor, err error) {
 	return
 }
 
-func (r *FactorRepository) GetAllSorted(t string) (factors []models.Factor, err error) {
-	err = r.Db.Where("type = ?", t).Order("name, star").Find(&factors).Error
+func (r *FactorRepository) GetAllSorted(t []string) (factors []models.Factor, err error) {
+	err = r.Db.Where("type in (?)", t).Order("name, star").Find(&factors).Error
 	return
 }
 

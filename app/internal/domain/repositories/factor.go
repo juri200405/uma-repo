@@ -7,7 +7,7 @@ import (
 type FactorRepository interface {
 	Register(*models.Factor) error
 	GetAll() ([]models.Factor, error)
-	GetAllSorted(string) ([]models.Factor, error)
+	GetAllSorted([]string) ([]models.Factor, error)
 	GetSlice([]uint) ([]models.Factor, error)
 	Delete(uint) error
 }

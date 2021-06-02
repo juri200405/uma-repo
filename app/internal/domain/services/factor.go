@@ -17,7 +17,7 @@ func (s *FactorService) GetAll() ([]models.Factor, error) {
 	return s.Repo.GetAll()
 }
 
-func (s *FactorService) GetAllSorted(t string) ([]models.Factor, error) {
+func (s *FactorService) GetAllSorted(t []string) ([]models.Factor, error) {
 	return s.Repo.GetAllSorted(t)
 }
 
