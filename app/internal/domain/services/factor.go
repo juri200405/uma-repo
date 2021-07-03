@@ -25,6 +25,14 @@ func (s *FactorService) GetSlice(ids []uint) ([]models.Factor, error) {
 	return s.Repo.GetSlice(ids)
 }
 
+func (s *FactorService) GetByID(id uint) (models.Factor, error) {
+	return s.Repo.GetByID(id)
+}
+
 func (s *FactorService) Delete(id uint) error {
 	return s.Repo.Delete(id)
+}
+
+func (s *FactorService) Update(factor *models.Factor) error {
+	return s.Repo.Update(factor)
 }

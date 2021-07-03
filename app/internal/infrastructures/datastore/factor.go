@@ -32,6 +32,15 @@ func (r *FactorRepository) GetSlice(ids []uint) (factors []models.Factor, err er
 	return
 }
 
+func (r *FactorRepository) GetByID(id uint) (factor models.Factor, err error) {
+	err = r.Db.First(&factor, id).Error
+	return
+}
+
 func (r *FactorRepository) Delete(id uint) error {
 	return r.Db.Delete(&models.Factor{}, id).Error
+}
+
+func (r *FactorRepository) Update(factor *models.Factor) error {
+	return r.Db.Save(factor).Error
 }
