@@ -24,6 +24,14 @@ func (s *RaceService) Delete(id uint) error {
 	return s.Repo.Delete(id)
 }
 
+func (s *RaceService) GetByID(id uint) (models.Race, error) {
+	return s.Repo.GetByID(id)
+}
+
+func (s *RaceService) Update(r *models.Race) error {
+	return s.Repo.Update(r)
+}
+
 type RaceResultService struct {
 	Repo repositories.RaceResultRepository
 }

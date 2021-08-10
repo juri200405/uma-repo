@@ -26,6 +26,18 @@ func (r *RaceRepository) Delete(id uint) (err error) {
 	return r.Db.Delete(&models.Race{}, id).Error
 }
 
+func (r *RaceRepository) GetByID(id uint) (race models.Race, err error) {
+	err = r.Db.First(&race, id).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = types.ErrRecordNotFound
+	}
+	return
+}
+
+func (r *RaceRepository) Update(race *models.Race) (err error) {
+	return r.Db.Model(race).Updates(race).Error
+}
+
 type RaceResultRepository struct {
 	Db *gorm.DB
 }

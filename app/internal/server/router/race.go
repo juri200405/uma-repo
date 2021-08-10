@@ -15,5 +15,6 @@ func RaceRouter(e *echo.Echo) {
 		Route.GET("", handlers.RacePage(r))
 		Route.POST("", handlers.RaceRegister(r))
 		Route.DELETE("/:raceID", handlers.RaceDelete(r))
+		Route.PATCH("/:raceID", handlers.RaceUpdate(r))
 	}
 }

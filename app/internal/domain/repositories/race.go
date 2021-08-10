@@ -15,4 +15,6 @@ type RaceRepository interface {
 	Register(*models.Race) error
 	GetAll(string) ([]models.Race, error)
 	Delete(uint) error
+	GetByID(uint) (models.Race, error)
+	Update(*models.Race) error
 }

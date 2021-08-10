@@ -53,3 +53,27 @@ func RaceDelete(r *registry.RaceRegistry) echo.HandlerFunc {
 		}
 	}
 }
+
+func RaceUpdate(r *registry.RaceRegistry) echo.HandlerFunc {
+	uc := r.GetRaceUsecase()
+	return func(c echo.Context) error {
+		id, err := strconv.ParseUint(c.Param("raceID"), 10, 64)
+		if err != nil {
+			return err
+		}
+		r, err := uc.GetByID(uint(id))
+		if err != nil {
+			return err
+		}
+		if err := c.Bind(&r); err != nil {
+			return err
+		}
+		fmt.Println(r)
+
+		if err := uc.Update(&r); err != nil {
+			return err
+		} else {
+			return c.NoContent(http.StatusOK)
+		}
+	}
+}
