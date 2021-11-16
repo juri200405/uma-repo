@@ -17,5 +17,6 @@ func UmaRouter(e *echo.Echo) {
 		Route.POST("", handlers.UmaRegister(r))
 		Route.GET("/:umaID", handlers.UmaDetailPage(r))
 		Route.POST("/:umaID", handlers.UmaUpdater(r))
+		Route.GET("/json", handlers.GetAllUmas(r))
 	}
 }
