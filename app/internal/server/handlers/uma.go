@@ -187,3 +187,18 @@ func UmaDetailPage(r *registry.UmaRegistry) echo.HandlerFunc {
 		)
 	}
 }
+
+func GetAllUmas(r *registry.UmaRegistry) echo.HandlerFunc {
+	uc := r.GetUmaUsecase()
+	return func(c echo.Context) error {
+		umas, err := uc.GetAll()
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		return c.JSON(
+			http.StatusOK,
+			umas,
+		)
+	}
+}
